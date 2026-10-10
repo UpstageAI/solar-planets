@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="업스테이지 Solar Pro 4로 만든 공공·세무 AI 도구들을 행성으로 둘러보는 소개 페이지">
+<title>Solar Planets</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{color-scheme:dark;--void:#07080d;--ink:#f1ede4;--dim:#9a9ca6;--line:rgba(255,255,255,.1);--sun:#ffb547;
+ --cute:"Jua","Apple SD Gothic Neo",sans-serif;--body:"IBM Plex Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--ink);font-family:var(--body);word-break:keep-all}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+main{position:relative;z-index:2}
+section{min-height:120vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;gap:24px;padding-inline:max(16px,6vw)}
+.card{max-width:30rem;opacity:.15;transform:translateY(30px);transition:opacity .6s,transform .6s}
+section.here .card{opacity:1;transform:none}
+.orbitno{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+h2{font-family:var(--cute);font-weight:400;font-size:clamp(34px,5vw,58px);line-height:1.1;margin:10px 0 14px;text-wrap:balance}
+h2 small{display:block;font-family:var(--mono);font-size:14px;color:var(--c);margin-top:8px;letter-spacing:.02em}
+.card p{font-size:16px;line-height:1.75;color:#d8d4cb;margin:0 0 14px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:0;list-style:none}
+.facts li{font-size:13px;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.pain{font-size:14px;color:var(--dim);border-left:3px solid var(--c);padding-left:12px;line-height:1.6}
+.pain b{color:var(--ink);font-weight:500}
+.links{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.links a{font-family:var(--mono);font-size:13px;text-decoration:none;color:#0b0b10;background:var(--c);padding:9px 14px;border-radius:10px}
+.links a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.intro{grid-template-columns:1fr;text-align:center;min-height:100vh;align-content:center}
+.intro h1{font-family:var(--cute);font-weight:400;font-size:clamp(48px,9vw,110px);margin:0;line-height:1}
+.intro p{color:var(--dim);font-size:17px;max-width:34ch;margin:18px auto 0;line-height:1.7}
+.down{margin-top:34px;font-family:var(--mono);font-size:12px;color:var(--dim);animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(6px)}}
+.outro{grid-template-columns:1fr;text-align:center;min-height:110vh;align-content:center}
+.outro h2{margin-inline:auto}
+.outro p{color:var(--dim);max-width:36ch;margin:0 auto;line-height:1.7}
+
+#ship{position:fixed;right:max(48px,5vw);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:5;width:150px;transition:transform .25s ease-out,opacity .4s;pointer-events:none;animation:hover 3s ease-in-out infinite}
+#ship img{width:100%;display:block;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45))}
+@keyframes hover{50%{translate:0 -8px}}
+#ship.landed{opacity:0}
+#bubble{position:absolute;right:120px;bottom:150px;white-space:nowrap;background:#fff;color:#111;font-family:var(--cute);font-size:16px;padding:8px 13px;border-radius:14px 14px 4px 14px;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.planet{position:relative;width:min(70vh,100%);aspect-ratio:1;justify-self:center;display:grid;place-items:center}
+.planet .body{width:78%;max-height:78%;object-fit:contain;filter:drop-shadow(0 0 40px color-mix(in srgb,var(--c) 45%,transparent));animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px) rotate(1.5deg)}}
+
+@media (max-width:760px){#ship{width:104px}#bubble{right:84px;bottom:104px;font-size:14px}}
+@media (prefers-reduced-motion:reduce){#ship,.planet .body,.rab,.flag{animation:none!important}}
+
+/* rabbit acts — different on each planet */
+.stage{position:absolute;inset:0;pointer-events:none}
+.rab{pointer-events:auto;cursor:pointer;position:absolute;width:var(--rw,22%);left:var(--rx,50%);top:var(--ry,6%);translate:-50% 0;opacity:0;filter:drop-shadow(0 6px 8px rgba(0,0,0,.45));transform-origin:50% 100%;transition:opacity .4s}
+section.here .rab{opacity:1}
+.rsay{position:absolute;left:var(--rx);top:var(--ry);translate:-10% -120%;background:#fff;color:#111;font:600 14px/1.2 var(--cute);padding:7px 11px;border-radius:13px 13px 13px 4px;box-shadow:0 6px 18px rgba(0,0,0,.35);white-space:nowrap;opacity:0;transition:opacity .25s;pointer-events:none}
+.rsay.on{opacity:1}
+@keyframes land{0%{transform:translateY(-160%) rotate(-10deg) scale(.92,1.1);opacity:0}55%{transform:translateY(0) rotate(0) scale(1,1);opacity:1}68%{transform:translateY(0) scale(1.14,.84)}82%{transform:translateY(-6%) scale(.95,1.07)}92%{transform:translateY(0) scale(1.03,.97)}100%{transform:none;opacity:1}}
+/* 01 walking across the top (4-frame sprite) */
+.walker{aspect-ratio:221/360;overflow:hidden}
+.walker img{height:100%;width:auto;display:block;animation:frames .64s steps(4) infinite}
+@keyframes frames{to{transform:translateX(-100%)}}
+section.here .act-walk .rab{animation:land .9s cubic-bezier(.3,1.4,.5,1) both, hop 1.6s .9s ease-in-out infinite}
+@keyframes hop{0%,60%,100%{transform:none}30%{transform:translateY(-10%)}}
+@keyframes pace{0%{left:34%;top:3%;scale:1 1}22%{left:50%;top:-3%}45%{left:66%;top:3%;scale:1 1}50%{left:66%;top:3%;scale:-1 1}72%{left:50%;top:-3%}95%{left:34%;top:3%;scale:-1 1}100%{left:34%;top:3%;scale:1 1}}
+/* 02 reading next to the bookshelf */
+section.here .act-read .rab{animation:land 1s ease-out both, read 5s 1s ease-in-out infinite}
+@keyframes read{0%,100%{transform:none}20%{transform:rotate(-2deg) scale(1.02,.98)}40%{transform:rotate(1.5deg) scale(.99,1.02)}56%{transform:rotate(0) scale(1.06,.93)}64%{transform:translateY(-7%) rotate(-3deg) scale(.95,1.07)}72%{transform:translateY(0) scale(1.05,.95)}80%{transform:none}}
+@keyframes breathe{0%,100%{transform:rotate(0) scale(1,1)}25%{transform:rotate(-2.5deg) scale(1.02,.98)}50%{transform:rotate(0) scale(.98,1.03)}75%{transform:rotate(2deg) scale(1.02,.98)}}
+/* 03 peekaboo from behind the planet */
+section.here .act-peek .rab{animation:peek 4.4s ease-in-out infinite}
+@keyframes peek{0%,14%{transform:translateY(100%);clip-path:inset(0 0 100% 0)}32%,74%{transform:translateY(0);clip-path:inset(0 0 0 0)}40%,66%{transform:translateY(-5%);clip-path:inset(0 0 0 0)}92%,100%{transform:translateY(100%);clip-path:inset(0 0 100% 0)}}
+/* 04 looking around by the signpost */
+section.here .act-look .rab{animation:land 1s ease-out both, look 4s 1s ease-in-out infinite, breathe 2.2s 1s ease-in-out infinite}
+@keyframes look{0%,38%{scale:1 1}44%{scale:.15 .92}50%,88%{scale:-1 1}94%{scale:-.15 .92}100%{scale:1 1}}
+/* 05 planting a flag */
+section.here .act-flag .rab{animation:land .9s cubic-bezier(.3,1.4,.5,1) both, push 1.6s .9s ease-in-out infinite}
+@keyframes push{0%,100%{transform:none}35%{transform:translateY(3%) rotate(-4deg) scale(1.06,.93)}55%{transform:translateY(-3%) rotate(1deg) scale(.96,1.05)}75%{transform:scale(1.02,.98)}}
+.flagtag{position:absolute;left:var(--fx);top:var(--fy);font:700 12px/1 var(--mono);color:#fff;background:var(--c);padding:5px 8px;border-radius:4px;opacity:0;transform:translateY(8px)}
+section.here .flagtag{animation:tag .5s 1.4s ease-out forwards}
+@keyframes tag{to{opacity:1;transform:none}}
+/* 03 tapping numbers */
+section.here .act-calc .rab{animation:land 1s ease-out both, tap 1.2s 1s ease-in-out infinite}
+@keyframes tap{0%,50%,100%{transform:none}12%{transform:translateY(2%) rotate(-2deg) scale(1.04,.96)}25%{transform:rotate(0) scale(.99,1.02)}62%{transform:translateY(2%) rotate(1.5deg) scale(1.04,.96)}75%{transform:scale(.99,1.02)}}
+.num{position:absolute;left:var(--rx);top:var(--ry);font:700 22px/1 var(--cute);color:var(--c);opacity:0;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+section.here .act-calc .num{animation:float-up 2.4s ease-out infinite}
+.n1{margin-left:-8%}.n2{margin-left:6%;animation-delay:.6s!important}.n3{margin-left:-2%;animation-delay:1.2s!important}.n4{margin-left:10%;animation-delay:1.8s!important}
+@keyframes float-up{0%{opacity:0;transform:translateY(0)}20%{opacity:1}100%{opacity:0;transform:translateY(-60px)}}
+/* 01 checking the document outline */
+section.here .act-doc .rab{animation:land 1s ease-out both, check 4.2s 1s ease-in-out infinite}
+@keyframes check{0%,100%{transform:none}15%{transform:rotate(-5deg) scale(1.02,.98)}24%{transform:rotate(-5deg) translateY(2%) scale(1.04,.95)}30%{transform:rotate(-5deg) scale(1,1)}36%{transform:rotate(-5deg) translateY(2%) scale(1.04,.95)}44%{transform:rotate(-4deg)}62%{transform:rotate(2deg) scale(.98,1.03)}80%{transform:rotate(0) translateY(-4%) scale(.97,1.04)}88%{transform:scale(1.05,.94)}}
+/* map */
+#map{position:fixed;right:max(12px,2vw);top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:12px}
+#map a{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.18);display:block;position:relative}
+#map a.on{background:var(--c,#fff);box-shadow:0 0 12px var(--c,#fff)}
+#map a span{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:12px;white-space:nowrap;color:var(--dim);opacity:0;transition:opacity .2s}
+#map a:hover span,#map a:focus-visible span{opacity:1}
+@media (max-width:760px){
+ section{grid-template-columns:1fr;min-height:auto;padding-block:12vh;text-align:left}
+ .planet{width:min(86vw,60vh);order:-1}
+ #ship{width:96px}
+ #bubble{right:78px;bottom:96px;font-size:14px}
+ #map{display:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{transition:none}.down,#ship .flame{animation:none}}
+</style>
+</head>
+<body>
+
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<div id="ship" aria-hidden="true"><img id="shipimg" src="assets/rabbit_rocket.png" alt=""><div id="bubble">출발해 볼까요?</div></div>
+<nav id="map" aria-label="행성 바로가기"></nav>
+
+<main id="main">
+ <section class="intro" id="s0" data-c="#ffb547" data-say="출발해 볼까요?">
+  <div>
+   <h1>Solar Planets</h1>
+   <p>현장에서 들은 불편 하나가, 행성 하나가 됩니다.<br>토끼와 함께 스크롤로 여행해 보세요.</p>
+   <div class="down">↓ 아래로</div>
+  </div>
+ </section>
+</main>
+
+<script>
+const P=[
+ {id:"sun",img:"p_sun.png",kind:"sun",c:"#ffb547",no:"출발점",name:"Solar Pro 4",sub:"모든 행성이 도는 태양",say:"태양에서 출발!",
+  text:"이 행성계의 모든 도구는 업스테이지의 거대언어모델 Solar Pro 4를 중심으로 돕니다. 한국어 문서를 읽고 이해하는 힘이 이 태양의 빛이에요.",
+  facts:["거대언어모델","한국어 문서 이해"],pain:null,links:[["upstage.ai","https://www.upstage.ai/"]]},
+ {act:"doc",rx:"55%",ry:"7%",rw:"20.4%",id:"hwpx",img:"p_hwpx.png",c:"#7fb2ff",c2:"#2b4fa3",style:"bands",ring:true,no:"행성 01",name:"한글 서식 행성",sub:"korean-report-hwpx",say:"서식은 제가 맞출게요",
+  text:"메모 한 장을 기관 서식 그대로 한글(HWPX) 보고서·보도자료로 만들어요. 정식 서식과 AI가 읽기 쉬운 간소화 서식, 두 개의 고리를 두르고 있어요.",
+  facts:["52개 기관 서식","정식·간소화","마크다운 동시 출력","Solar Pro 4로 개발"],
+  pain:"AI가 쓴 초안을 다시 한글 서식에 옮겨 붙이던 일",links:[["GitHub","https://github.com/UpstageAI/korean-report-hwpx"],["PyPI","https://pypi.org/project/korean-report-hwpx/"]]},
+ {act:"read",rx:"66%",ry:"-0.6%",rw:"21.6%",id:"tax",img:"p_tax.png",c:"#6fd3b0",c2:"#11594a",style:"swirl",no:"행성 02",name:"근거 행성",sub:"korean-tax-mcp",say:"출처가 다 보여요!",
+  text:"법령·해석례·판례를 찾아 근거 문서번호와 함께 답해요. 이 행성에서는 '어디에 그렇게 쓰여 있는데요?'라는 질문이 사라져요.",
+  facts:["법령·해석례·판례","근거 문서번호","거주자 판정","Solar Pro 4로 개발"],pain:"그럴듯하지만 근거를 알 수 없던 AI 답변",links:[["GitHub","https://github.com/UpstageAI/korean-tax-mcp"],["PyPI","https://pypi.org/project/korean-tax-mcp/"]]},
+ {act:"calc",rx:"67%",ry:"10%",rw:"38%",id:"calc",img:"p_calc.png",c:"#f2d36b",c2:"#8a5a12",style:"craters",no:"행성 03",name:"계산 행성",sub:"korean-tax-calc-mcp",say:"숫자는 코드가 세요",
+  text:"세법 규정대로 세액을 계산해요. 모델이 숫자를 짐작하지 않고, 계산은 코드가 맡아요. 근거 행성과 쌍둥이처럼 붙어 다녀요.",
+  facts:["규정 기반 계산","검산 가능한 과정","비거주자 원천징수·과소자본","Solar Pro 4로 개발"],pain:"계산 과정이 안 보여 검산을 다시 하던 일",links:[["GitHub","https://github.com/UpstageAI/korean-tax-calc-mcp"],["PyPI","https://pypi.org/project/korean-tax-calc-mcp/"]]},
+ {act:"look",rx:"34%",ry:"-4%",rw:"21.5%",id:"decide",img:"p_decide.png",c:"#ff8f7a",c2:"#7a2318",style:"bands",no:"행성 04",name:"판정 행성",sub:"Solar Decide 공공 판정 시연",say:"어느 부서로 갈까?",
+  text:"요구자료가 들어오면 담당 부서 후보와 유형을 판정하고, 근거를 붙여 보여 줘요. 같은 요구가 여러 부서를 떠돌지 않도록요.",
+  facts:["Solar Pro 4 + Solar Decide","법령·통계 연결"],pain:"요구 하나가 여러 부서를 떠돌다 늦어지는 일",links:[]},
+ {act:"flag",rx:"52%",ry:"-4.4%",rw:"24.3%",fx:"32%",fy:"6%",id:"gws",img:"p_gws.png",c:"#b58cff",c2:"#3c1f7a",style:"swirl",ring:true,big:true,no:"행성 05",name:"GWS",sub:"Government Working Space",say:"곧 착륙할 수 있어요",
+  text:"공무원이 한 공간에서 문서를 읽고, 쓰고, 근거를 찾는 정부 업무 공간이에요. 앞의 행성들이 하나로 모이는 자리, Solar Pro 4와 함께 만들고 있어요.",
+  facts:["Solar Pro 4와 함께","준비 중"],pain:null,links:[]},
+];
+const main=document.getElementById('main'), map=document.getElementById('map');
+P.forEach((p,i)=>{
+ const s=document.createElement('section'); s.id='s'+(i+1); s.dataset.c=p.c; s.dataset.say=p.say; s.style.setProperty('--c',p.c);
+ s.innerHTML=`<div class="card"><div class="orbitno">${p.no}</div><h2>${p.name}<small>${p.sub}</small></h2><p>${p.text}</p>
+  <ul class="facts">${p.facts.map(f=>'<li>'+f+'</li>').join('')}</ul>
+  ${p.pain?'<div class="pain"><b>해결한 불편</b> — '+p.pain+'</div>':''}
+  ${p.links.length?'<div class="links">'+p.links.map(([t,u])=>'<a href="'+u+'" target="_blank" rel="noopener">'+t+' ↗</a>').join('')+'</div>':''}</div>
+  <div class="planet${p.kind==='sun'?' sun':''}"><img class="body" src="assets/${p.img}" alt="${p.name}">${p.act?`<div class="stage act-${p.act}" style="--rx:${p.rx};--ry:${p.ry};--rw:${p.rw||'22%'}"><img class="rab" src="assets/rabbit_${p.act}.png" alt="">${p.act==='calc'?'<span class="num n1">+</span><span class="num n2">=</span><span class="num n3">7</span><span class="num n4">%</span>':''}${p.act==='flag'?'<div class="flagtag" style="--fx:'+p.fx+';--fy:'+p.fy+'">GWS</div>':''}</div>`:''}</div>`;
+ main.appendChild(s); p.sec=s;
+});
+const out=document.createElement('section'); out.className='outro'; out.id='s7'; out.dataset.c='#9a9ca6'; out.dataset.say='다음 행성은 어디일까?';
+out.innerHTML='<div><div style="display:flex;justify-content:center;align-items:center;gap:0;margin-bottom:20px"><canvas id="ghostc" width="600" height="600" style="width:min(32vh,46vw)"></canvas><img src="assets/rabbit_laptop.png" alt="노트북 하는 토끼" style="width:min(18vh,26vw)"></div><div class="orbitno">빈 궤도</div><h2>다음 행성</h2><p>현장에서 들은 다음 불편이 이 자리에 올 행성이 됩니다.</p></div>';
+main.appendChild(out); const ghost=document.getElementById('ghostc');
+document.querySelectorAll('section').forEach((s,i)=>{const a=document.createElement('a');a.href='#'+s.id;a.style.setProperty('--c',s.dataset.c);
+ const t=i===0?'출발':(P[i-1]?P[i-1].name:'다음 행성');a.innerHTML='<span>'+t+'</span>';a.setAttribute('aria-label',t);a.addEventListener('click',e=>{e.preventDefault();s.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});});map.appendChild(a);});
+
+function rng(seed){let r=seed;return()=>(r=(r*16807)%2147483647)/2147483647;}
+function drawGhost(t){const x=ghost.getContext('2d'),S=ghost.width,R=S*.28;x.clearRect(0,0,S,S);x.setLineDash([10,12]);x.lineDashOffset=-t*20;x.strokeStyle='rgba(200,205,220,.55)';x.lineWidth=3;
+ x.beginPath();x.arc(S/2,S/2,R,0,7);x.stroke();x.setLineDash([]);x.fillStyle='rgba(200,205,220,.6)';x.font='bold 64px Jua, sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('?',S/2,S/2);}
+
+/* ---- sky (parallax stars) ---- */
+const sky=document.getElementById('sky'),sx=sky.getContext('2d');let stars=[];
+function resize(){sky.width=innerWidth*devicePixelRatio;sky.height=innerHeight*devicePixelRatio;const R=rng(42);
+ stars=Array.from({length:420},()=>({x:R(),y:R(),z:.2+R()*.8,r:.4+R()*1.4,tw:R()*6}));}
+addEventListener('resize',resize);resize();
+function drawSky(t,sc){const W=sky.width,H=sky.height;sx.fillStyle='#07080d';sx.fillRect(0,0,W,H);
+ const neb=sx.createRadialGradient(W*.75,H*.3,0,W*.75,H*.3,W*.6);neb.addColorStop(0,'rgba(90,70,170,.16)');neb.addColorStop(1,'rgba(0,0,0,0)');sx.fillStyle=neb;sx.fillRect(0,0,W,H);
+ stars.forEach(s=>{const y=((s.y*H - sc*s.z*.35*devicePixelRatio)%H+H)%H;sx.globalAlpha=.35+.45*Math.sin(t*1.5+s.tw)*s.z+.2;sx.fillStyle='#e8ecf5';sx.beginPath();sx.arc(s.x*W,y,s.r*s.z*devicePixelRatio,0,7);sx.fill();});sx.globalAlpha=1;}
+
+/* ---- scroll: active section, ship ---- */
+const secs=[...document.querySelectorAll('section')],links=[...map.children],ship=document.getElementById('ship'),bubble=document.getElementById('bubble');
+let cur=-1,lastY=scrollY,tilt=0;
+function update(){const mid=innerHeight/2;let best=0,bd=1e9;secs.forEach((s,i)=>{const r=s.getBoundingClientRect(),d=Math.abs(r.top+r.height/2-mid);if(d<bd){bd=d;best=i;}});
+ if(best!==cur){cur=best;secs.forEach((s,i)=>s.classList.toggle('here',i===best));links.forEach((a,i)=>a.classList.toggle('on',i===best));bubble.textContent=secs[best].dataset.say;}
+ ship.classList.toggle('landed',best>=2&&best<=secs.length-2);
+ const v=scrollY-lastY;lastY=scrollY;tilt+=((Math.max(-18,Math.min(18,v*.6)))-tilt)*.15;ship.style.transform='rotate('+(tilt)+'deg) translateY('+(-Math.abs(tilt)*.6)+'px)';}
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;let t0=performance.now();
+function loop(now){const t=reduce?0:(now-t0)/1000;drawSky(t,scrollY);update();
+drawGhost(t);requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+
+document.querySelectorAll('.rab').forEach(r=>{
+ const st=r.closest('.stage'); const b=document.createElement('div'); b.className='rsay'; st.appendChild(b);
+ const lines=['안녕하세요!','간지러워요','오늘도 출근!','저 바빠요~'];let n=0,tm;
+ r.addEventListener('click',()=>{
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  r.animate([{transform:'translateY(0) scale(1,1)'},{transform:'translateY(0) scale(1.12,.86)',offset:.15},{transform:'translateY(-22%) scale(.92,1.1)',offset:.45},{transform:'translateY(0) scale(1.1,.9)',offset:.75},{transform:'translateY(0) scale(1,1)'}],{duration:620,easing:'ease-out',composite:'add'});
+  b.textContent=lines[n++%lines.length];b.classList.add('on');clearTimeout(tm);tm=setTimeout(()=>b.classList.remove('on'),1600);
+ });
+});
+</script>
+
+<div style="position:fixed;left:16px;bottom:10px;z-index:6;font:500 12px/1.4 'IBM Plex Sans KR',system-ui,sans-serif;color:rgba(241,237,228,.55)">© 2026 Upstage · Created by Mia(윤승미)</div>
+</body>
+</html>
