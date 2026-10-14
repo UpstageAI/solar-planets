@@ -26,11 +26,13 @@
       const x = parseFloat(star.style.left) * w / 100;
       const y = parseFloat(star.style.top) * h / 100;
       const covered = areas.some(r => x > r.left - 24 && x < r.right + 24 && y > r.top - 24 && y < r.bottom + 24);
-      star.style.visibility = covered ? 'hidden' : '';
+      if (star._covered !== covered) { star._covered = covered; star.style.visibility = covered ? 'hidden' : ''; }
     }
   }
   function schedule() { if (!pending) { pending = true; requestAnimationFrame(layout); } }
-  addEventListener('scroll', schedule, {passive:true});
+  // While a section transition is running, wait for scrolling to settle instead of re-measuring every frame.
+  let settle;
+  addEventListener('scroll', () => { clearTimeout(settle); settle = setTimeout(schedule, 140); }, {passive:true});
   addEventListener('resize', schedule, {passive:true});
   new ResizeObserver(schedule).observe(document.body);
   document.fonts?.ready.then(schedule);

@@ -5,7 +5,7 @@
 (() => {
   const desktop = matchMedia('(min-width: 761px)');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let idleTimer, raf = null, animating = false, consumed = false, delta = 0, direction = 0;
+  let idleTimer, raf = null, animating = false, consumed = false, delta = 0, direction = 0, lastMag = 0;
 
   const stops = () => {
     const end = Math.max(0, document.documentElement.scrollHeight - innerHeight);
@@ -53,11 +53,16 @@
     if (!event.deltaY) return;
     event.preventDefault();
 
-    // Momentum never reverses: a sign change is a new gesture even inside the tail.
+    // Momentum never reverses: a sign change is a new gesture even inside the tail
+    // or while a transition is still running, so turning back is answered at once.
     const sign = Math.sign(event.deltaY);
-    if (consumed && sign !== direction) { consumed = false; delta = 0; }
+    const mag = Math.abs(event.deltaY);
+    if ((consumed || animating) && direction && sign !== direction) { consumed = false; delta = 0; animating = false; cancelAnimationFrame(raf); }
+    // A fresh swipe in the same direction shows up as a jump in magnitude inside the decaying tail.
+    else if (consumed && !animating && mag > 24 && mag > lastMag * 2.5) { consumed = false; delta = 0; }
+    lastMag = mag;
     clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => { consumed = false; delta = 0; direction = 0; }, 200);
+    idleTimer = setTimeout(() => { consumed = false; delta = 0; direction = 0; lastMag = 0; }, 320);
     if (consumed || animating) return;
 
     delta += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
@@ -69,6 +74,9 @@
     const origin = scrollY;
     const index = points.reduce((best, y, i) =>
       Math.abs(y - origin) < Math.abs(points[best] - origin) ? i : best, 0);
-    animate(points[Math.max(0, Math.min(points.length - 1, index + sign))]);
+    // If we are between stops (turned back mid-transition), the nearest stop in that direction is the target.
+    const between = Math.abs(points[index] - origin) > 2;
+    const target = between && Math.sign(points[index] - origin) === sign ? index : index + sign;
+    animate(points[Math.max(0, Math.min(points.length - 1, target))]);
   }, { passive: false });
 })();

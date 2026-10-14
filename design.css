@@ -329,3 +329,16 @@ body{isolation:isolate}
 
 /* User-approved page background · 2026-10-14. */
 body{background:#191724}
+/* Architecture call-to-action: a tiny solar system, unlike the planet links above. */
+.arch-cta{position:relative;display:flex;align-items:center;gap:16px;margin-top:20px;padding:12px 18px 12px 12px;border-radius:999px;text-decoration:none;color:var(--_dark---text);background:radial-gradient(120% 160% at 0% 50%,rgba(136,150,255,.22),rgba(136,150,255,.04) 60%,transparent);border:1px solid rgba(136,150,255,.45);box-shadow:0 0 0 0 rgba(136,150,255,0);transition:box-shadow .3s,border-color .3s,transform .3s}
+.arch-cta:hover,.arch-cta:focus-visible{border-color:rgba(136,150,255,.9);box-shadow:0 0 28px -4px rgba(136,150,255,.55);transform:translateY(-1px)}
+.arch-cta-orbit{position:relative;flex:0 0 56px;width:56px;height:56px;border-radius:50%;border:1px dashed rgba(255,255,255,.22)}
+.arch-cta-orbit img{position:absolute;left:50%;top:50%;width:28px;height:28px;transform:translate(-50%,-50%);filter:drop-shadow(0 0 8px rgba(136,150,255,.8))}
+.arch-cta-orbit i{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:var(--c);animation:arch-cta-orbit 12s linear infinite;animation-delay:var(--d)}
+@keyframes arch-cta-orbit{from{transform:rotate(0deg) translateX(28px)}to{transform:rotate(360deg) translateX(28px)}}
+.arch-cta-text{display:grid;gap:2px;min-width:0;text-align:left}
+.arch-cta-text b{font-weight:600;font-size:var(--web-text-base)}
+.arch-cta-text small{color:var(--_dark---text-body);font-size:var(--web-text-xs);line-height:1.5}
+.arch-cta-arrow{margin-left:auto;font-size:var(--web-text-lg);color:var(--planet-sun);transition:transform .3s}
+.arch-cta:hover .arch-cta-arrow{transform:translateX(4px)}
+@media(prefers-reduced-motion:reduce){.arch-cta-orbit i{animation:none}.arch-cta-orbit i:nth-child(2){transform:translateX(28px)}.arch-cta-orbit i:nth-child(3){transform:rotate(72deg) translateX(28px)}.arch-cta-orbit i:nth-child(4){transform:rotate(144deg) translateX(28px)}.arch-cta-orbit i:nth-child(5){transform:rotate(216deg) translateX(28px)}.arch-cta-orbit i:nth-child(6){transform:rotate(288deg) translateX(28px)}}
