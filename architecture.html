@@ -194,7 +194,7 @@
 <section class="band" id="map" aria-labelledby="map-title"><div class="container">
 <p class="kicker">구조 지도</p>
 <h2 id="map-title">행성계를 펼치면</h2>
-<p class="lead">돌고 있는 궤도를 한 줄씩 펼쳐 놓았습니다. 위에서 아래로 사용자 → 서비스 → MCP 도구 → 태양 → 근거 데이터. 행성이나 데이터를 누르면 그곳을 지나는 길 전체가 빛납니다. 세 MCP와 Solar Pro 4를 잇는 선은 Solar Pro 4로 만든 도구라는 뜻입니다(근거·계산은 실행 중에도 선택적으로 호출). 점선은 GWS가 행성들을 함께 쓰는 활용 데모를 준비 중인 연결입니다.</p>
+<p class="lead">돌고 있는 궤도를 한 줄씩 펼쳐 놓았습니다. 위에서 아래로 사용자 → 서비스 → MCP 도구 → 태양 → 근거 데이터. 행성이나 데이터를 누르면 그곳을 지나는 길 전체가 빛납니다. 점선은 활용 데모로 준비 중인 연결입니다.</p>
 <div class="map-wrap">
 <div class="map" id="mapEl">
 <svg class="edges" id="edges" aria-hidden="true"></svg>
@@ -306,7 +306,7 @@
       p.setAttribute('d', `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`);
     }
   }
-  const defaultPanel = `<p class="p-tag">안내</p><h3>행성을 눌러 보세요</h3><p class="p-desc">예: <b>MCP 클라이언트</b>를 누르면 공무원·세무 실무자 → 클라이언트 → 한글 서식·근거·계산 → Solar Pro 4·Document Parse → 근거 데이터까지 길 전체가 켜집니다. MCP와 Solar Pro 4를 잇는 선은 Solar Pro 4로 만든 도구라는 뜻이고, 점선은 GWS 활용 데모 준비 중인 연결입니다.</p>`;
+  const defaultPanel = `<p class="p-tag">안내</p><h3>행성을 눌러 보세요</h3><p class="p-desc">예: <b>MCP 클라이언트</b>를 누르면 공무원·세무 실무자 → 클라이언트 → 한글 서식·근거·계산 → Solar Pro 4·Document Parse → 근거 데이터까지 길 전체가 켜집니다. 점선은 활용 데모로 준비 중인 연결입니다.</p>`;
   let active = null;
   function show(id) {
     if (active === id || !id) { active = null; map.classList.remove('focus'); Object.values(nodes).forEach(n=>{n.classList.remove('on');n.setAttribute('aria-pressed','false')}); paths.forEach(e=>e.p.classList.remove('on')); panel.innerHTML = defaultPanel; panel.style.removeProperty('--c'); return; }
