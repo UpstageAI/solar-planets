@@ -1,55 +1,74 @@
-/* Native touch snapping lives in CSS. Group trackpad/wheel momentum into
-   one adjacent section move; keyboard, horizontal gestures and zoom stay native. */
+/* Desktop wheel paging: one wheel gesture (mouse tick or trackpad swipe) moves
+   exactly one section. The movement is animated here instead of relying on
+   CSS scroll-snap + smooth scrollTo, which fight each other and behave
+   differently in Safari and Chrome. Touch devices keep native CSS snapping. */
 (() => {
-  const mobile = matchMedia('(max-width: 760px)');
+  const desktop = matchMedia('(min-width: 761px)');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let idleTimer, settleTimer, consumed = false, delta = 0, direction = 0, destination = null;
+  let idleTimer, raf = null, animating = false, consumed = false, delta = 0, direction = 0;
+
   const stops = () => {
-    const end = document.documentElement.scrollHeight - innerHeight;
-    return [...new Set([0, ...document.querySelectorAll('.scene, .outro')]
-      .map(el => typeof el === 'number' ? el : el.getBoundingClientRect().top + scrollY)
-      .map(y => Math.max(0, Math.min(end, Math.round(y))))
-      .concat(Math.round(end)))].sort((a, b) => a - b);
+    const end = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+    const tops = [...document.querySelectorAll('.scene, .outro')]
+      .map(el => Math.round(el.getBoundingClientRect().top + scrollY));
+    return [...new Set([0, ...tops, Math.round(end)].map(y => Math.max(0, Math.min(end, y))))]
+      .sort((a, b) => a - b);
   };
-  // Only the section being read can opt desktop scrolling out of paging.
-  const desktopOverflow = () => {
+
+  // A section taller than the viewport is read with native scrolling.
+  const overflowing = () => {
     const center = innerHeight / 2;
     const current = [...document.querySelectorAll('.hero, .scene, .outro')]
-      .find(el => {
-        const bounds = el.getBoundingClientRect();
-        return bounds.top <= center && bounds.bottom > center;
-      });
-    return current && current.getBoundingClientRect().height > innerHeight + 1;
+      .find(el => { const b = el.getBoundingClientRect(); return b.top <= center && b.bottom > center; });
+    return !!current && current.getBoundingClientRect().height > innerHeight + 1;
   };
-  const settled = () => { destination = null; clearTimeout(settleTimer); };
-  addEventListener('scrollend', settled);
+
+  const animate = to => {
+    cancelAnimationFrame(raf);
+    const from = scrollY, dist = to - from;
+    if (reduced.matches || Math.abs(dist) < 2) {
+      scrollTo({ top: to, behavior: 'instant' });
+      animating = false;
+      return;
+    }
+    const duration = 520, start = performance.now();
+    animating = true;
+    const step = now => {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      scrollTo({ top: from + dist * eased, behavior: 'instant' });
+      if (p < 1) raf = requestAnimationFrame(step);
+      else { scrollTo({ top: to, behavior: 'instant' }); animating = false; }
+    };
+    raf = requestAnimationFrame(step);
+  };
+
   addEventListener('wheel', event => {
-    if (event.ctrlKey || event.metaKey ||
+    if (!desktop.matches ||
+        event.ctrlKey || event.metaKey ||
         Math.abs(event.deltaX) > Math.abs(event.deltaY) ||
         (window.visualViewport && visualViewport.scale > 1) ||
-        event.target.closest('input, textarea, select, [contenteditable="true"]') ||
-        (mobile.matches
-          ? [...document.querySelectorAll('.scene')].some(el => el.scrollHeight > el.clientHeight + 1)
-          : desktopOverflow())) return;
+        (event.target.closest && event.target.closest('input, textarea, select, [contenteditable="true"]')) ||
+        overflowing()) return;
     if (!event.deltaY) return;
     event.preventDefault();
+
     // Momentum never reverses: a sign change is a new gesture even inside the tail.
     const sign = Math.sign(event.deltaY);
     if (consumed && sign !== direction) { consumed = false; delta = 0; }
     clearTimeout(idleTimer);
     idleTimer = setTimeout(() => { consumed = false; delta = 0; direction = 0; }, 200);
-    if (consumed) return;
+    if (consumed || animating) return;
+
     delta += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
-    if (Math.abs(delta) < 24) return;
+    if (Math.abs(delta) < 12) return;
     consumed = true;
     direction = sign;
+
     const points = stops();
-    const origin = destination === null ? scrollY : destination;
+    const origin = scrollY;
     const index = points.reduce((best, y, i) =>
       Math.abs(y - origin) < Math.abs(points[best] - origin) ? i : best, 0);
-    destination = points[Math.max(0, Math.min(points.length - 1, index + Math.sign(delta)))];
-    scrollTo({ top: destination, behavior: reduced.matches ? 'instant' : 'smooth' });
-    clearTimeout(settleTimer);
-    settleTimer = setTimeout(settled, 800);
+    animate(points[Math.max(0, Math.min(points.length - 1, index + sign))]);
   }, { passive: false });
 })();

@@ -25,3 +25,7 @@ references/solar-planet-complete-handoff.zip을 풀고 08-generation-skill/solar
 
 ## 검증 범위
 이번 수정에서 모바일 및 데스크톱 브라우저 화면, 회전 그룹24개, 캐릭터 모션5개, 모바일/데스크톱 별 표시와 텍스트 회피를 확인했습니다. 모든 실제 기기와 OS 설정을 전수 검증한 것은 아닙니다. evidence 이미지는 각 수정 시점의 기록이며 모두 동일 시점의 스냅샷은 아닙니다. 이전 v6의 검증 결과를 v7의 결과로 재사용하지 않았습니다.
+
+## 반영 후 수정 (Mia, 2026-10-14)
+- 데스크톱 휠이 양방향으로 자주 먹히지 않던 문제: CSS 강제 스냅(scroll-snap-type: y mandatory)과 section-paging.js의 smooth scrollTo가 서로 당겨 생긴 것. 데스크톱(761px 이상)에서는 CSS 스냅을 제거하고 section-paging.js가 requestAnimationFrame으로 직접 한 섹션씩 이동하도록 다시 작성. 방향이 바뀌면 관성 꼬리 중이라도 새 제스처로 인식. 모바일은 기존 네이티브 터치 스냅 유지.
+- 행성 SVG 안의 예시 제목(계약서 검토·메일 분류·자산 관리 등)을 행성 이름으로 교체.
