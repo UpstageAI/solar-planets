@@ -194,7 +194,7 @@
 <section class="band" id="map" aria-labelledby="map-title"><div class="container">
 <p class="kicker">구조 지도</p>
 <h2 id="map-title">행성계를 펼치면</h2>
-<p class="lead">돌고 있는 궤도를 한 줄씩 펼쳐 놓았습니다. 위에서 아래로 사용자 → 서비스 → MCP 도구 → 태양 → 근거 데이터. 행성이나 데이터를 누르면 그곳을 지나는 길 전체가 빛납니다. 점선은 두 가지입니다. GWS에서 나가는 점선은 활용 데모로 준비 중인 연결, 한글 서식 → Solar Pro 4 점선은 개발 단계에서 코드를 쓴 연결입니다(실행 시에는 키 없이 로컬에서만 돕니다).</p>
+<p class="lead">돌고 있는 궤도를 한 줄씩 펼쳐 놓았습니다. 위에서 아래로 사용자 → 서비스 → MCP 도구 → 태양 → 근거 데이터. 행성이나 데이터를 누르면 그곳을 지나는 길 전체가 빛납니다. 세 MCP와 Solar Pro 4를 잇는 선은 Solar Pro 4로 만든 도구라는 뜻입니다(근거·계산은 실행 중에도 선택적으로 호출). 점선은 GWS가 행성들을 함께 쓰는 활용 데모를 준비 중인 연결입니다.</p>
 <div class="map-wrap">
 <div class="map" id="mapEl">
 <svg class="edges" id="edges" aria-hidden="true"></svg>
@@ -276,10 +276,10 @@
     gws:{img:'gws',c:'var(--planet-gws)',tag:'서비스 · 행성 05',name:'GWS',sub:'Government Working Space',desc:'한 공간에서 문서를 읽고·쓰고·근거를 찾는 정부 업무 공간. 조달청 디지털서비스 카탈로그에 등록된 서비스이고, 앞의 행성들을 함께 쓰는 활용 데모를 준비하고 있습니다.',rows:[['Solar','Solar Pro 4'],['조달','조달청 디지털서비스 카탈로그 등록'],['행성 소개','활용 데모 준비 중 (행성 01–04 연결)']]},
     decide:{img:'decide',c:'var(--planet-decide)',tag:'서비스 · 행성 04',name:'민원 분류',sub:'Solar Decide(Jev) 시연 · Created by 성덕희',desc:'민원 유형과 담당 부서를 판정하고, 법령을 연결해 답변 초안까지 만듭니다. 가상 민원 예시입니다.',rows:[['Solar','Solar Decide(Jev) + Solar Pro 4 직접 사용'],['데이터','법령'],['해결한 불편','부서 배정 전담자가 필요할 만큼 많은 민원']],links:[['데모','https://solardecide.vercel.app/']]},
     client:{tag:'서비스',name:'MCP 클라이언트',sub:'Claude · ChatGPT · Cursor 등',desc:'설치 한 줄(uvx)로 MCP 서버를 붙여 바로 씁니다.'},
-    hwpx:{img:'hwpx',c:'var(--planet-hwpx)',tag:'MCP · 행성 01',name:'한글 서식',sub:'korean-report-hwpx · 도구 6',desc:'메모 → 구조 JSON → 기관 서식 HWPX. 보고서·보도자료에 더해 기안문·시행문(별지 제1호서식)과 내부 결재 보고서까지. AI 초안을 한글 서식에 다시 옮겨 붙이던 일을 없앱니다.',rows:[['문서 종류','보고서 · 보도자료 · 기안문·시행문 · 정식/간소화 + 마크다운'],['Solar','개발 단계에서 Solar Pro 4가 코드 작성(점선). 실행은 로컬, 키 불필요, 외부 전송 없음'],['데이터','52개 기관 서식 규칙']],links:gh('korean-report-hwpx')},
+    hwpx:{img:'hwpx',c:'var(--planet-hwpx)',tag:'MCP · 행성 01',name:'한글 서식',sub:'korean-report-hwpx · 도구 6',desc:'메모 → 구조 JSON → 기관 서식 HWPX. 보고서·보도자료에 더해 기안문·시행문(별지 제1호서식)과 내부 결재 보고서까지. AI 초안을 한글 서식에 다시 옮겨 붙이던 일을 없앱니다.',rows:[['문서 종류','보고서 · 보도자료 · 기안문·시행문 · 정식/간소화 + 마크다운'],['Solar','Solar Pro 4로 만든 도구. 실행은 로컬, 키 불필요, 외부 전송 없음'],['데이터','52개 기관 서식 규칙']],links:gh('korean-report-hwpx')},
     tax:{img:'tax',c:'var(--planet-tax)',tag:'MCP · 행성 02',name:'근거',sub:'korean-tax-mcp · 도구 22',desc:'해석·판례·통칙·집행기준·시점별 조문(법→시행령→시행규칙 위임 연결), 인용 검증, 주장·보기를 조문 원문과 대조(verify_statement·judge_options), 같은 쟁점 승·패 비교, 거주자 판정. 근거를 알 수 없던 AI 답변에 출처를 붙입니다.',rows:[['키','해석·판례 조회는 키 불필요, 시점별 조문은 법제처 키 필요'],['고지','세무대리·세무상담이 아닌 조회·정리 도구 — 판단은 세무 전문가와 함께'],['Solar','대조·요약·번역·판정 (내 AI / Solar 클라우드 / 기관 안의 Solar)']],links:gh('korean-tax-mcp')},
     calc:{img:'calc',c:'var(--planet-calc)',tag:'MCP · 행성 03',name:'계산',sub:'korean-tax-calc-mcp · 도구 50',desc:'세액은 코드가 계산하고 결과마다 근거 조문을 붙입니다. 결산 원장 항목을 그대로 넣으면 항목 판단 → 세법상 조정 → 조정명세서 모양 결과까지 돌려주는 끝에서 끝까지 계산기 9종(기업업무추진비·대손·금융소득·의제배당·간이과세·공통매입세액 등)과 일감몰아주기·특수관계 판정 도구를 포함합니다. 계산에는 생성형 AI를 쓰지 않습니다.',rows:[['Solar','PDF 도구 3개만 Document Parse + Solar'],['데이터','세율표 2016–2026, 사실관계 어휘, 신고서·주주명부 PDF'],['고지','세무대리·세무상담이 아닌 계산 도구 — 최종 판단은 세무 전문가와 함께']],links:gh('korean-tax-calc-mcp')},
-    pro4:{img:'sun',c:'var(--planet-sun)',tag:'태양',name:'Solar Pro 4',sub:'한국어 문서 이해 LLM',desc:'모든 행성이 도는 중심. 범정부 초거대 AI 공통기반에 등록되어 있고 기관 온프렘에도 설치할 수 있습니다.',rows:[['MCP 도구','근거·계산은 실행 중 호출(선택), 한글 서식은 개발 단계에서 코드 작성에 사용'],['서비스','민원 분류, GWS가 직접 사용']],links:[['upstage.ai','https://www.upstage.ai/']]},
+    pro4:{img:'sun',c:'var(--planet-sun)',tag:'태양',name:'Solar Pro 4',sub:'한국어 문서 이해 LLM',desc:'모든 행성이 도는 중심. 범정부 초거대 AI 공통기반에 등록되어 있고 기관 온프렘에도 설치할 수 있습니다.',rows:[['MCP 도구','한글 서식·근거·계산 세 행성 모두 Solar Pro 4로 제작. 근거·계산은 실행 중에도 선택 호출'],['서비스','민원 분류, GWS가 직접 사용']],links:[['upstage.ai','https://www.upstage.ai/']]},
     jev:{c:'var(--planet-sun)',tag:'태양',name:'Solar Decide(Jev)',sub:'분류·판정 특화',desc:'민원 유형과 담당 부서를 빠르게 결정합니다.'},
     dp:{c:'var(--planet-sun)',tag:'태양',name:'Document Parse',sub:'문서 구조 추출',desc:'PDF 신고서·주주명부의 표 구조를 읽습니다. 키를 설정했을 때 씁니다.'},
     law:{tag:'소행성대',name:'법제처 Open API',sub:'시점별 조문 · 법률→시행령→시행규칙',desc:'기준일 현재 시행 중인 조문을 돌려줍니다.',rows:[['키','<code>LAW_OC</code> 필요']]},
@@ -292,7 +292,7 @@
   const E = [['u-official','gws',1],['u-official','decide'],['u-official','client'],['u-tax','client'],['u-citizen','decide'],
     ['client','hwpx'],['client','tax'],['client','calc'],['gws','hwpx',1],['gws','tax',1],['gws','calc',1],['gws','pro4',1],
     ['decide','jev'],['decide','pro4'],['decide','law'],
-    ['hwpx','pro4',1],['tax','pro4'],['calc','dp'],['calc','pro4'],
+    ['hwpx','pro4'],['tax','pro4'],['calc','dp'],['calc','pro4'],
     ['hwpx','forms'],['tax','law'],['tax','nts'],['tax','treaty'],['calc','rates'],['calc','pdf']];
   const map = document.getElementById('mapEl'), svg = document.getElementById('edges'), panel = document.getElementById('panel');
   const nodes = Object.fromEntries([...map.querySelectorAll('.node')].map(n => [n.dataset.id, n]));
@@ -306,7 +306,7 @@
       p.setAttribute('d', `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`);
     }
   }
-  const defaultPanel = `<p class="p-tag">안내</p><h3>행성을 눌러 보세요</h3><p class="p-desc">예: <b>MCP 클라이언트</b>를 누르면 공무원·세무 실무자 → 클라이언트 → 한글 서식·근거·계산 → Solar Pro 4·Document Parse → 근거 데이터까지 길 전체가 켜집니다. 점선은 두 가지 — GWS에서 나가는 점선은 활용 데모 준비 중, 한글 서식 → Solar Pro 4 점선은 개발 단계에서 코드를 쓴 연결(실행 시 Solar 호출 없음)입니다.</p>`;
+  const defaultPanel = `<p class="p-tag">안내</p><h3>행성을 눌러 보세요</h3><p class="p-desc">예: <b>MCP 클라이언트</b>를 누르면 공무원·세무 실무자 → 클라이언트 → 한글 서식·근거·계산 → Solar Pro 4·Document Parse → 근거 데이터까지 길 전체가 켜집니다. MCP와 Solar Pro 4를 잇는 선은 Solar Pro 4로 만든 도구라는 뜻이고, 점선은 GWS 활용 데모 준비 중인 연결입니다.</p>`;
   let active = null;
   function show(id) {
     if (active === id || !id) { active = null; map.classList.remove('focus'); Object.values(nodes).forEach(n=>{n.classList.remove('on');n.setAttribute('aria-pressed','false')}); paths.forEach(e=>e.p.classList.remove('on')); panel.innerHTML = defaultPanel; panel.style.removeProperty('--c'); return; }
