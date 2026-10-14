@@ -1,0 +1,29 @@
+/*
+ * a11y.website.css — Website 포커스 링.
+ *
+ * a11y.css 의 Product 링은 3px · --color-brand-500 이다. Website 정본은 다르다 —
+ * tokens/website.css Layer 4 의 --focus-ring-web-{color,width,offset}
+ * (#4d65ff · 2px · offset 2px). 2026-08-21 실측에서 52페이지 중 50페이지가
+ * 커스텀 코드로 이미 이 값을 얹고 있었고 변형은 0건이었다.
+ * #4d65ff on 흰 배경 4.54:1 — WCAG 1.4.11 통과.
+ *
+ * a11y.css 뒤에 로드해 [data-ds-focus] 링만 덮는다. 나머지(스킵 링크·sr-only·
+ * forced-colors)는 a11y.css 그대로다.
+ */
+
+[data-ds-focus]:focus-visible {
+  outline: var(--focus-ring-web-width) solid var(--focus-ring-web-color);
+  outline-offset: var(--focus-ring-web-offset);
+}
+
+@supports not selector(:focus-visible) {
+  [data-ds-focus]:focus {
+    outline: var(--focus-ring-web-width) solid var(--focus-ring-web-color);
+    outline-offset: var(--focus-ring-web-offset);
+  }
+}
+
+/* 다크 서피스(nav·footer) 위에서는 흰 링이 대비를 확보한다 */
+[data-ds-surface="dark"] [data-ds-focus]:focus-visible {
+  outline-color: var(--colors--white);
+}

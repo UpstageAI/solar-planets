@@ -1,0 +1,53 @@
+/*
+ * korean.css — 한국어 조판 규칙 SSOT.
+ * DESIGN.md의 한국어 조판 항목은 이 파일의 다운스트림이다. 규칙의 기계 판독본은
+ * kit/rules/korean-typography.json.
+ */
+
+:root {
+  /* 한국어는 라틴보다 자간이 넓게 보인다 — 제목에서 더 조여준다 */
+  --ko-tracking-display: -0.045em;
+  --ko-tracking-headline: -0.035em;
+  --ko-tracking-title: -0.025em;
+  --ko-tracking-body: -0.01em;
+  /* 한국어는 x-height가 없어 같은 px에서 크게 보인다 — 본문 행간을 늘린다 */
+  --ko-leading-display: 1.2; /* @kind other */
+  --ko-leading-headline: 1.3; /* @kind other */
+  --ko-leading-body: 1.7; /* @kind other */
+  --ko-leading-caption: 1.55; /* @kind other */
+  /* 한글 1글자 ≈ 라틴 2글자 — measure를 줄인다 */
+  --ko-measure-body: 40ch; /* @kind other */
+  --ko-measure-narrow: 28ch; /* @kind other */
+  /* D-4: 폰트 스택의 원장은 tokens/fonts.css의 --font-ko다. 여기는 별칭만 둔다 —
+   * 값을 두 곳에 적으면 v0.2에서 고쳤던 원장 분리가 재발한다.
+   * 이전 값("ESPeak", "Pretendard", …)은 오류였다: ESPeak는 hero 전용 display 폰트이고
+   * Pretendard는 번들에 바이너리가 없으며 Noto Sans KR이 빠져 있었다. */
+  --ko-font-sans: var(--font-ko);
+}
+
+/* ===== 규칙 0: 한국어 폰트 스택. 토큰을 실제로 적용한다 =====
+   v0.3.0에서는 이 규칙이 없어 --ko-font-sans가 정의만 되고 죽어 있었다.
+   한글이 Noto Sans KR로 보이던 것은 --font-sans의 fallback 덕분이었다. */
+:lang(ko), [lang="ko"] { font-family: var(--ko-font-sans); }
+
+/* ===== 규칙 1: 어절 단위 줄바꿈. 한국어는 keep-all이 기본 ===== */
+:lang(ko), [lang="ko"] { word-break: keep-all; overflow-wrap: break-word; line-break: strict; }
+
+/* ===== 규칙 2: 한국어 본문은 행간을 넓힌다 ===== */
+:lang(ko) body, [lang="ko"] { line-height: var(--ko-leading-body); letter-spacing: var(--ko-tracking-body); }
+
+/* ===== 규칙 3: 제목은 자간을 더 조인다 ===== */
+:lang(ko) h1, [lang="ko"] h1 { letter-spacing: var(--ko-tracking-display); line-height: var(--ko-leading-display); }
+:lang(ko) h2, [lang="ko"] h2 { letter-spacing: var(--ko-tracking-headline); line-height: var(--ko-leading-headline); }
+:lang(ko) h3, :lang(ko) h4, [lang="ko"] h3, [lang="ko"] h4 { letter-spacing: var(--ko-tracking-title); }
+
+/* ===== 규칙 4: measure — 한글 본문은 40ch 내외 ===== */
+.ko-measure { max-width: var(--ko-measure-body); }
+.ko-measure--narrow { max-width: var(--ko-measure-narrow); }
+
+/* ===== 규칙 5: 한국어에는 대문자 변환·이탤릭을 쓰지 않는다 ===== */
+:lang(ko) [style*="uppercase"], :lang(ko) .uppercase { text-transform: none; }
+:lang(ko) em, [lang="ko"] em { font-style: normal; font-weight: 600; }
+
+/* ===== 규칙 6: 숫자·단위는 tabular. 표·KPI 정렬 ===== */
+:lang(ko) .num, .ko-num { font-variant-numeric: tabular-nums; letter-spacing: 0; }

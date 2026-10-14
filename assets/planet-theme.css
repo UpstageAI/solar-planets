@@ -1,0 +1,26 @@
+/* Exact supplied artwork fills carried into scene accents; dark surfaces stay intact. */
+:root{
+ --planet-sun:#8896FF;
+ --planet-hwpx:#C2CBFF;
+ --planet-tax:#BFE0D0;
+ --planet-calc:#EFE0AE;
+ --planet-decide:#B8DFDD;
+ --planet-gws:#D9C5EC;
+}
+.scene{
+ --planet-accent-text:var(--planet-accent);
+ --planet-accent-soft:color-mix(in srgb,var(--planet-accent) 6%,var(--_dark---surface-deep));
+ --planet-accent-border:color-mix(in srgb,var(--planet-accent) 25%,var(--_dark---border-subtle));
+}
+#s1{--planet-accent:var(--planet-sun)}
+#s2{--planet-accent:var(--planet-hwpx)}
+#s3{--planet-accent:var(--planet-tax)}
+#s4{--planet-accent:var(--planet-calc)}
+#s5{--planet-accent:var(--planet-decide)}
+#s6{--planet-accent:var(--planet-gws)}
+.hero-nav a[href="#s1"]{--planet-accent:var(--planet-sun)}
+.hero-nav a[href="#s2"]{--planet-accent:var(--planet-hwpx)}
+.hero-nav a[href="#s3"]{--planet-accent:var(--planet-tax)}
+.hero-nav a[href="#s4"]{--planet-accent:var(--planet-calc)}
+.hero-nav a[href="#s5"]{--planet-accent:var(--planet-decide)}
+.hero-nav a[href="#s6"]{--planet-accent:var(--planet-gws)}

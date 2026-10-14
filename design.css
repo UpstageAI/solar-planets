@@ -1,0 +1,331 @@
+@font-face{font-family:ESPeak;src:url('assets/fonts/ESPeak-Semibold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+:root{color-scheme:dark;--font-ko:"Geist","Noto Sans KR",ui-sans-serif,system-ui,sans-serif;--font-display:"ESPeak","Geist","Noto Sans KR",sans-serif;--font-sans:var(--font-ko)}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--_dark---surface-deep);color:var(--_dark---text);font:400 var(--web-text-base)/var(--ko-leading-body) var(--font-ko);letter-spacing:var(--ko-tracking-body);word-break:keep-all;overflow-wrap:anywhere}
+h1,h2,p,ul,figure{margin:0}
+h1,h2{font-weight:500;text-wrap:balance}
+h1{font:600 var(--web-text-display-sm)/var(--web-leading-tight) var(--font-display);letter-spacing:-.18px}
+h1[lang="en"]{letter-spacing:-.18px;line-height:var(--web-leading-tight)}
+h2{font-size:var(--web-text-3xl);font-weight:var(--web-weight-medium);line-height:var(--ko-leading-headline);letter-spacing:var(--ko-tracking-headline)}
+img{display:block;max-width:100%;height:auto}
+a{color:var(--_dark---text);text-underline-offset:5px}
+.container{width:100%;max-width:var(--container-web-large);margin-inline:auto;padding-inline:var(--gutter-web-mobile);min-width:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:20px;top:8px;transform:translateY(-160%)}
+.skip-link:focus{transform:none}
+/* Canonical .button is supplied by LIFT base.website.css. */
+.button{min-height:48px;min-width:44px}
+.text-link{display:inline-flex;align-items:center;min-width:44px;min-height:44px;padding-block:8px}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px}
+.brand{display:inline-flex;align-items:center;min-width:44px;min-height:44px}
+.brand img{width:132px;height:auto}
+.header-link{font-size:var(--web-text-sm)}
+
+/* T1 text hero. Content sets the height; no artwork or animation is added. */
+.hero{padding-block:var(--section-md-mobile);text-align:center}
+.hero-content{max-width:40ch;margin-inline:auto}
+.intro-line{color:var(--_dark---text-body);font-size:var(--web-text-md);margin-top:24px}
+.intro-pitch{color:var(--_dark---text-body);margin-top:32px;padding-top:24px;border-top:1px solid var(--_dark---border-subtle);text-align:left}
+.hero-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 20px;margin-top:24px;text-align:left}
+.hero-nav a{gap:10px;font-size:var(--web-text-sm);text-decoration:none;border-bottom:1px solid var(--_dark---border-subtle)}
+.hero-nav a::before{content:"";flex:0 0 6px;height:6px;border-radius:50%;background:var(--planet-accent)}
+.down{color:var(--_dark---text-muted);font-size:var(--web-text-sm);margin-top:24px}
+
+/* Follow the original .card / .planet composition.
+   <=760px: large graphic first, then a full-width copy block.
+   The neutral circle is 78% of its stage, matching the original image bounds. */
+.scene{padding-block:12vh;background:var(--_dark---surface-deep);scroll-margin-top:0}
+.scene-grid{display:grid;grid-template-columns:minmax(0,1fr);align-items:center;gap:24px;padding-inline:max(var(--gutter-web-mobile),6vw)}
+.scene-copy{min-width:0;max-width:30rem}
+.sub{color:var(--planet-accent);font-size:var(--web-text-sm);font-weight:500;line-height:1.6;letter-spacing:.02em;margin-top:8px}
+.graphic-space{position:relative;isolation:isolate;display:grid;align-content:center;justify-items:center;gap:8px;width:min(86vw,60vh);aspect-ratio:1;justify-self:center;min-width:0;padding:16%;color:var(--_dark---text-muted);text-align:center;order:-1}
+.graphic-space::before{content:"";position:absolute;inset:11%;border:1px dashed var(--_dark---border);border-radius:50%;background:var(--_dark---surface)}
+.graphic-space span,.graphic-space small{position:relative}
+.graphic-space span{font-size:var(--web-text-lg);color:var(--_dark---text-body)}
+.graphic-space small{font-size:var(--web-text-xs);line-height:1.6}
+.scene-body{min-width:0;margin-top:var(--space-6)}
+.scene-text{color:var(--_dark---text-body);font-size:var(--web-text-base);line-height:var(--ko-leading-body)}
+.facts{display:flex;flex-wrap:wrap;gap:var(--space-2);list-style:none;padding:0;margin-top:var(--space-4)}
+.facts li{max-width:100%;padding:6px 11px;border:1px solid var(--planet-accent-border);border-radius:999px;background:var(--planet-accent-soft);color:var(--_dark---text-body);font-size:var(--web-text-sm);line-height:1.6}
+.pain{margin-top:var(--space-6);padding-left:var(--space-3);border-left:3px solid var(--planet-accent);color:var(--_dark---text-body);font-size:var(--web-text-sm);line-height:var(--ko-leading-body)}
+.pain b{display:block;color:var(--_dark---text);font-weight:500;margin-bottom:4px}
+.scene-actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-6)}
+.scene-actions .text-link{display:block;flex:0 1 auto;line-height:44px;white-space:nowrap;font-size:var(--web-text-sm);font-weight:500;padding:0;background:transparent;text-decoration:underline}
+.outro{padding-block:12vh;text-align:center}
+.outro .graphic-space{width:min(86vw,60vh);margin:0 auto 24px}
+.outro h2{margin-top:0}
+.outro p:last-child{max-width:36ch;margin:16px auto 0;color:var(--_dark---text-body)}
+.footer{border-top:1px solid var(--_dark---border-subtle)}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px 24px;padding-block:24px;font-size:var(--web-text-xs);color:var(--_dark---text-muted)}
+@media(min-width:480px){.hero{padding-block:var(--section-md)}}
+@media(min-width:761px){
+ .container{padding-inline:var(--gutter-web)}
+ .hero-content{max-width:64ch}
+ .hero-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px}
+ .hero-nav a{border-bottom:0}
+ .intro-line{font-size:var(--web-text-lg)}
+ .intro-pitch{max-width:56ch;margin-inline:auto}
+ .scene{min-height:120vh;display:grid;align-items:center;padding-block:var(--section-md)}
+ .scene-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px;padding-inline:max(var(--gutter-web),6vw)}
+ .graphic-space{order:0;width:min(70vh,100%);padding:16%}
+ .outro{padding-block:var(--section-md)}
+ .outro .graphic-space{width:min(40vh,360px)}
+}
+@media(min-width:992px){h1{font-size:var(--web-text-display)}h2{font-size:var(--web-text-5xl)}}
+@media(max-width:359px){.hero-nav{column-gap:16px}.header-link{font-size:var(--web-text-xs)}}
+
+/* One mobile scene per visible screen. Copy keeps its natural height;
+   the graphic uses the space left above it, with no inner scroll or clipping. */
+@media(max-width:760px){
+ .brand img{width:120px}
+ #hero-title{font-size:var(--web-text-4xl)}
+ .header-inner{padding-block:var(--space-2)}
+ .hero{min-height:calc(100svh - 60px);padding-block:var(--space-6);display:grid;align-items:center}
+ .intro-line{margin-top:var(--space-4)}
+ .intro-pitch{margin-top:var(--space-4);padding-top:var(--space-4)}
+ .hero-nav{margin-top:var(--space-4);row-gap:0}
+ .down{margin-top:var(--space-3)}
+ .scene{min-height:100svh;padding-block:var(--space-6)}
+ .scene-grid{height:calc(100svh - 48px);grid-template-rows:minmax(80px,1fr) auto;gap:var(--space-4);padding-inline:var(--gutter-web-mobile)}
+ .scene-copy{width:100%;margin-inline:auto}
+ .scene .graphic-space{height:min(100%,76vw,300px);width:auto;max-width:100%;min-height:0;padding:var(--space-4);align-self:center}
+ .facts{gap:6px}
+ .facts li{padding:4px 10px}
+ .outro{min-height:100svh;padding-block:var(--space-6);display:grid;align-items:center}
+ .outro .graphic-space{width:min(76vw,36svh,300px)}
+}
+@media(max-width:760px) and (max-height:700px){
+ .hero{padding-block:var(--space-4)}
+ .scene{padding-block:var(--space-4)}
+ .scene-grid{height:calc(100svh - 32px);gap:var(--space-3)}
+ .scene-title h2{font-size:var(--web-text-2xl);margin-top:0}
+ .scene-body,.pain,.scene-actions{margin-top:var(--space-4)}
+ .facts{margin-top:var(--space-3)}
+ .graphic-space span{font-size:var(--web-text-base)}
+}
+@media(max-width:760px) and (max-height:600px){
+ .hero{padding-block:var(--space-3)}
+ .intro-line{font-size:var(--web-text-base);margin-top:var(--space-2)}
+ .intro-pitch{margin-top:var(--space-2);padding-top:var(--space-3)}
+ .hero-nav{margin-top:var(--space-2)}
+ .down{font-size:var(--web-text-xs);margin-top:var(--space-2)}
+ .scene{padding-block:var(--space-3)}
+ .scene-grid{height:calc(100svh - 24px);gap:var(--space-2)}
+ .scene-body,.pain,.scene-actions{margin-top:var(--space-3)}
+ .facts{margin-top:var(--space-2)}
+ .facts li{font-size:var(--web-text-xs);line-height:var(--ko-leading-caption);padding:3px 8px}
+ .pain{font-size:var(--web-text-xs);line-height:var(--ko-leading-caption)}
+}
+
+/* Reading hierarchy: scene title, proposition, body, metadata, action.
+   Repository identifiers and feature tags are supporting information. */
+.scene-title h2,.outro h2{font-weight:var(--web-weight-semibold)}
+.sub{font-size:var(--web-text-sm);font-weight:var(--web-weight-medium);letter-spacing:0}
+#s1 .sub{font-size:var(--web-text-base)}
+#s2 .sub,#s3 .sub,#s4 .sub{font-size:var(--web-text-xs);line-height:var(--ko-leading-caption);font-weight:var(--web-weight-normal);color:var(--_dark---text-muted)}
+.scene-text{font-weight:var(--web-weight-normal)}
+.facts li{font-size:var(--web-text-xs);line-height:var(--ko-leading-caption);padding:4px 8px;color:var(--planet-accent-text)}
+.pain b{font-size:var(--web-text-xs);line-height:var(--ko-leading-caption);font-weight:var(--web-weight-semibold);color:var(--planet-accent)}
+.graphic-space span{font-size:var(--web-text-base);font-weight:var(--web-weight-normal);color:var(--_dark---text-muted)}
+.intro-line{font-weight:var(--web-weight-medium);color:var(--_dark---text)}
+
+/* Native touch section paging. section-paging.js groups trackpad momentum.
+   The intro snap point includes its 60px header. Footer stays reachable. */
+@media(max-width:760px){
+ html{scroll-snap-type:y mandatory}
+ .hero,.scene,.outro{scroll-snap-align:start;scroll-snap-stop:always}
+ .hero{scroll-margin-top:60px}
+ .footer{scroll-snap-align:end;scroll-snap-stop:always}
+}
+
+/* The hero is one reading column: title, introduction, detail and navigation
+   share a left edge. Keep the existing copy and viewport-based mobile height. */
+.hero{text-align:left}
+.hero-content{width:100%}
+.intro-line{text-wrap:balance}
+.intro-pitch{max-width:none;margin-inline:0}
+.hero-nav{justify-content:start}
+.down{text-align:left}
+@media(min-width:761px){
+ .hero-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 24px}
+ .hero-nav a{border-bottom:1px solid var(--_dark---border-subtle)}
+}
+
+/* Bring the title up; reserve the final line for the scroll cue on mobile. */
+.hero{padding-block-start:var(--section-sm)}
+@media(max-width:760px){
+ .hero{align-items:stretch;padding-block-start:clamp(24px,6svh,56px)}
+ .hero > .container{display:flex;flex-direction:column}
+ .hero-content{display:flex;flex-direction:column;flex:1}
+ .hero-content > *{flex-shrink:0}
+ .hero .down{margin-top:auto;padding-top:var(--space-3)}
+}
+@media(max-width:760px) and (max-height:700px){
+ .hero{padding-block-start:var(--space-4)}
+}
+@media(max-width:760px) and (max-height:600px){
+ .hero{padding-block-start:var(--space-3)}
+ .hero .down{padding-top:var(--space-2)}
+}
+
+/* Balance four existing reading groups across the screen without moving the title.
+   On short screens the same groups return to their natural compact spacing. */
+@media(max-width:760px){
+ .hero-content{justify-content:space-between;row-gap:var(--space-6)}
+ .hero .intro-pitch{margin-top:0;padding-top:var(--space-6)}
+ .hero .hero-nav{margin-top:0;row-gap:var(--space-2)}
+ .hero-nav a{min-height:clamp(44px,7svh,64px)}
+ .hero .down{margin-top:0;padding-top:0}
+}
+@media(max-width:760px) and (max-height:700px){
+ .hero-content{row-gap:var(--space-4)}
+ .hero .intro-pitch{padding-top:var(--space-4)}
+ .hero .hero-nav{row-gap:var(--space-1)}
+}
+@media(max-width:760px) and (max-height:600px){
+ .hero-content{row-gap:var(--space-2)}
+ .hero .intro-pitch{padding-top:var(--space-3)}
+ .hero .hero-nav{row-gap:0}
+}
+@media(min-width:761px){
+ .hero .intro-pitch{margin-top:var(--space-10)}
+ .hero .hero-nav{margin-top:var(--space-8)}
+ .hero-nav a{min-height:48px}
+}
+/* Keep the reference swatches intact; tint only small accent text on dark. */
+.scene .sub,.pain b{color:var(--planet-accent-text)}
+#s2 .sub,#s3 .sub,#s4 .sub{color:var(--_dark---text-muted)}
+
+/* Section rhythm: keep titles with their labels, separate the reading layers,
+   and center short copy in the lower stage instead of pinning it to the bottom. */
+.scene-body{margin-top:var(--space-8)}
+.facts{margin-top:var(--space-5)}
+.facts li{background:color-mix(in srgb,var(--planet-accent) 6%,var(--_dark---surface-deep));border-color:color-mix(in srgb,var(--planet-accent) 25%,var(--_dark---border-subtle))}
+.pain{border-left-width:2px}
+.scene-actions{margin-top:var(--space-8)}
+.outro .graphic-space{margin-bottom:var(--space-8)}
+@media(max-width:760px){
+ .scene-grid{grid-template-rows:minmax(80px,min(36svh,300px)) auto;align-content:center;gap:clamp(16px,4svh,40px)}
+}
+@media(max-width:760px) and (max-height:700px){
+ .scene-grid{grid-template-rows:minmax(80px,1fr) auto;gap:var(--space-3)}
+ .scene-body,.scene-actions{margin-top:var(--space-4)}
+ .facts{margin-top:var(--space-3)}
+ .outro .graphic-space{margin-bottom:var(--space-6)}
+}
+@media(max-width:760px) and (max-height:600px){
+ .scene-grid{gap:var(--space-2)}
+ .scene-body,.scene-actions{margin-top:var(--space-3)}
+ .facts{margin-top:var(--space-2)}
+}
+
+/* Full-viewport desktop flow. Mobile keeps its approved viewport composition. */
+@media(min-width:761px){
+ .container{max-width:72rem}
+ h1{font-size:clamp(var(--web-text-display-sm),calc(5.52vw - .375rem),var(--web-text-display))}
+ h2{font-size:clamp(var(--web-text-3xl),calc(4.1vw + .05rem),var(--web-text-5xl))}
+ .hero{min-height:calc(100svh - 76px);display:grid;align-items:center;padding-block:var(--section-md);scroll-margin-top:76px}
+ .hero > .container{display:block}
+ .hero-content{max-width:none;margin-inline:0;display:flex;flex-direction:column;row-gap:var(--space-8)}
+ .hero-content > *{flex-shrink:0}
+ .hero .intro-pitch,.hero .hero-nav,.hero .down{margin-top:0}
+ .hero .intro-pitch{max-width:40rem;padding-top:0;border-top:0}
+ .hero-nav a{min-height:56px}
+ .intro-pitch,.scene-text{font-size:var(--web-text-md);line-height:var(--ko-leading-body)}
+ .scene{min-height:100svh;display:grid;align-items:center;padding-block:var(--section-md)}
+ .scene-grid{max-width:72rem;grid-template-columns:minmax(0,1fr);align-items:start;gap:var(--space-8);padding-inline:var(--gutter-web)}
+ .scene-copy{width:100%;max-width:40rem}
+ .scene .graphic-space{order:-1;width:clamp(16rem,28vw,18rem);padding:var(--space-6);align-self:start;justify-self:center}
+ .scene .sub{font-size:var(--web-text-base);margin-top:var(--space-3)}
+ #s1 .sub{font-size:var(--web-text-lg)}
+ #s2 .sub,#s3 .sub,#s4 .sub{font-size:var(--web-text-sm)}
+ .facts li{font-size:var(--web-text-sm)}
+ .pain{font-size:var(--web-text-base);padding-left:var(--space-4)}
+ .pain b{margin-bottom:var(--space-2)}
+ .scene-actions{gap:var(--space-4)}
+ .outro{min-height:100svh;display:grid;align-items:center;padding-block:var(--section-md)}
+ .outro .graphic-space{width:16rem;padding:var(--space-6);margin-bottom:var(--space-8)}
+ .outro p:last-child{font-size:var(--web-text-md);line-height:var(--ko-leading-body);margin-top:var(--space-6)}
+}
+
+/* Two columns begin when the 5:4 grid gives copy at least 530px. */
+@media(min-width:1080px){
+ .scene-grid{grid-template-columns:minmax(0,5fr) minmax(0,4fr);align-items:center;gap:clamp(var(--space-8),4vw,calc(var(--space-8) * 2))}
+ .scene-copy{max-width:35rem}
+ .scene .graphic-space{order:0;width:min(100%,28rem);align-self:center;justify-self:end}
+}
+
+/* Supplied artwork shares one canvas. Existing stage geometry stays intact. */
+.graphic-space.artwork-stage{padding:0}
+.artwork-stage::before{content:none}
+.artwork-stage > .artwork-layer{position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none}
+.artwork-stage > .artwork-symbol{inset:15%;width:70%;height:70%}
+.artwork-layer[data-artwork-motion]:not([data-motion-ready]) .orbit-dot{visibility:hidden}
+.artwork-motion-toggle{border:0;background:none;color:inherit;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:5px}
+.artwork-motion-toggle[hidden]{display:none}
+.artwork-motion-toggle:disabled{cursor:default;text-decoration:none}
+
+/* Supplied Solar Pro 4 orbits use the existing stage and shared motion control. */
+.solar-pro-hero > .artwork-symbol{inset:auto;left:50%;top:50%;width:43.2%;height:43.2%;transform:translate(-50%,-50%)}
+.solar-pro-hero .solar-rings{position:absolute;inset:0;width:100%;height:100%;overflow:visible;stroke:#fff;stroke-width:1.5;pointer-events:none}
+.solar-pro-hero .ring{transform-origin:300px 300px;animation:solar-pro-hero-turn 42s linear infinite;animation-play-state:paused}
+.solar-pro-hero.is-running .ring{animation-play-state:running}
+.solar-pro-hero .orbit-marker{stroke:none}
+@keyframes solar-pro-hero-turn{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.solar-pro-hero .ring{animation:none!important}}
+
+/* Native snapping permits reading oversized sections between their edges. */
+.section-navigation{display:none}
+@media(min-width:761px){
+ html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+ .hero,.scene,.outro{scroll-snap-align:start;scroll-snap-stop:always}
+ .footer{scroll-snap-align:end;scroll-snap-stop:always}
+ .section-navigation{position:fixed;right:4px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;width:44px}
+ .section-navigation a{position:relative;display:grid;place-items:center;width:44px;height:var(--space-8);text-decoration:none;color:var(--_dark---text-muted)}
+ .section-navigation a::after{content:"";width:8px;height:8px;border:1px solid currentColor;border-radius:50%}
+ .section-navigation a[aria-current="location"]{color:var(--_dark---text)}
+ .section-navigation a[aria-current="location"]::after{background:currentColor}
+ .section-navigation-label{position:absolute;right:44px;white-space:nowrap;font-size:var(--web-text-xs);opacity:0;pointer-events:none}
+ .section-navigation a:hover .section-navigation-label,.section-navigation a:focus-visible .section-navigation-label{opacity:1}
+}
+@media(min-width:761px) and (prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+}
+@media(max-width:359px) and (max-height:600px){#hero-title{font-size:calc((var(--web-text-display-sm) + var(--web-text-4xl)) / 2)}}
+
+/* Independent decorative viewport background, outside all planet artwork. */
+body{isolation:isolate}
+.space-background{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.space-background i{position:absolute;display:block;border-radius:50%;background:var(--_dark---text)}
+@media(max-width:767px){.space-background i:nth-child(3n){display:none}}
+/* Let the shared star field show through the section backgrounds. */
+.hero,.scene,.outro{background:transparent}
+
+/* Occasional bright round stars pulse in size, independently of planet assets. */
+.space-background .twinkle-star{transform-origin:center;animation:space-star-twinkle var(--twinkle-duration,7s) ease-in-out var(--twinkle-delay,0s) infinite;animation-play-state:paused}
+.space-background.is-running .twinkle-star{animation-play-state:running}
+@keyframes space-star-twinkle{0%,45%,100%{transform:scale(.35)}60%{transform:scale(1.65)}76%{transform:scale(.55)}}
+@media(prefers-reduced-motion:reduce){.space-background .twinkle-star{animation:none;transform:scale(.6)}}
+
+/* Desktop-only density and bright white accents; mobile stays unchanged. */
+.space-background .desktop-star{display:none}
+@media(min-width:1024px){
+ .space-background .desktop-star{display:block}
+ .space-background .twinkle-star{box-shadow:0 0 5px color-mix(in srgb,var(--_dark---text) 24%,transparent)}
+}
+
+/* Mobile twinkles stay readable without increasing the quiet star field. */
+@media(max-width:767px){
+ .space-background .twinkle-star:not(.desktop-star){display:block;width:2.5px!important;height:2.5px!important;animation-name:space-star-twinkle-mobile;box-shadow:0 0 6px color-mix(in srgb,var(--_dark---text) 40%,transparent)}
+}
+@keyframes space-star-twinkle-mobile{0%,35%,100%{transform:scale(.4)}52%{transform:scale(1.8)}70%{transform:scale(.75)}}
+
+/* Hero elements rotate and fade independently; the central mark stays fixed. */
+.solar-pro-hero .hero-fade{animation:solar-hero-fade var(--fade-duration,10s) ease-in-out var(--fade-delay,0s) infinite;animation-play-state:paused}
+.solar-pro-hero.is-running .hero-fade{animation-play-state:running}
+@keyframes solar-hero-fade{0%,100%{opacity:.15}20%,58%{opacity:1}78%,88%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.solar-pro-hero .hero-fade{animation:none;opacity:.7}}
+
+/* User-approved page background · 2026-10-14. */
+body{background:#191724}

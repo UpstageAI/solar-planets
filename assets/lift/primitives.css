@@ -1,0 +1,189 @@
+/*
+ * primitives.css — DESIGN_v2.md §2 공유 Primitive.
+ *
+ * Product · Website · Marketing 세 context 가 함께 읽는 층이다.
+ * DESIGN.marketing.md §0 · DESIGN.website.md §0 이 "§2 공유 Primitive" 를
+ * 필독으로 선언한다.
+ *
+ * 2026-08-25 tokens.product.css 에서 분리했다. 값은 한 글자도 바꾸지 않았고
+ * 원장은 여전히 하나다 — 각 토큰은 여기 아니면 저기 한 곳에만 정의된다.
+ * 여기 있는 것: 색 램프(L1) · 그림자 베이스 · 컨테이너 · 간격 · radius ·
+ * elevation · tracking/leading · motion · z-index.
+ * 여기 없는 것: L2 SEMANTIC · L3 COMPONENT · .dark — tokens.product.css 에 있고,
+ * 그건 Product/Website 전용이다 (forbidden-rules M-1).
+ *
+ * Values are HSL (hue saturation% lightness%) unless noted.
+ */
+
+:root {
+  /* ========== L1 PRIMITIVES — NEUTRALS ========== */
+  --color-neutral-0: 0 0% 100%; /* #FFFFFF */
+  --color-neutral-50: 240 25% 98%; /* #FAFAFC */
+  --color-neutral-100: 240 16% 96%; /* #F4F4F7 */
+  --color-neutral-200: 240 10% 90%; /* #E4E4E9 */
+  --color-neutral-300: 240 8% 83%; /* #D1D1D8 */
+  --color-neutral-400: 240 6% 65%; /* #A1A1AB */
+  /* D-2: 400(2.58)과 500(4.86) 사이에 3:1을 넘는 첫 단계가 없었다. */
+  --color-neutral-450: 240 5% 58%; /* #8F8F99 — 입력 테두리 */
+  --color-neutral-500: 240 4% 46%; /* #71717A */
+  --color-neutral-600: 240 5% 34%; /* #52525B */
+  --color-neutral-700: 240 5% 26%; /* #3F3F46 */
+  --color-neutral-800: 240 4% 16%; /* #27272A */
+  --color-neutral-900: 240 6% 10%; /* #18181B */
+  --color-neutral-950: 240 9% 4%; /* #0A0A0C */
+
+  /* ========== L1 PRIMITIVES — BRAND (PRIMARY) ========== */
+  --color-brand-50: 227 100% 96%; /* #EBF0FF */
+  --color-brand-100: 229 100% 93%; /* #DBE2FF */
+  --color-brand-200: 231 100% 88%; /* #C2CBFF */
+  --color-brand-300: 233 100% 80%; /* #99A5FF */
+  --color-brand-400: 239 100% 73%; /* #7578FF — Primary (dark mode) */
+  --color-brand-500: 244 100% 66%; /* #5B52FF — Primary (light mode) */
+  --color-brand-600: 248 91% 59%; /* #4D33F4 */
+  --color-brand-700: 249 69% 51%; /* #3F23DB */
+  --color-brand-800: 249 66% 40%; /* #3725AE — Eyebrow dark / accent fg */
+  --color-brand-900: 249 62% 27%; /* #322790 — Accent bg (dark) */
+  --color-brand-950: 236 50% 13%; /* #161650 */
+
+  /* ========== L1 PRIMITIVES — GREEN-YELLOW (SECONDARY) ========== */
+  --color-green-yellow-200: 67 100% 80%; /* #F3FF99 */
+  --color-green-yellow-400: 84 100% 65%; /* #B8FF4D — Secondary action */
+  --color-green-yellow-900: 101 100% 21%; /* #226B00 */
+
+  /* ========== L1 PRIMITIVES — SEMANTIC (RED/GREEN/BLUE/YELLOW) ========== */
+  --color-red-50: 356 100% 97%;
+  --color-red-400: 350 100% 61%;
+  /* D-1: 3단계 램프로는 4.5:1을 만족하는 빨강이 없어 중간 단계를 넣었다. */
+  --color-red-500: 350 100% 45%; /* #E60026 — destructive base */
+  --color-red-550: 350 95% 42%; /* #D10527 — dark hover */
+  --color-red-600: 350 92% 40%; /* #C40827 — hover / light 에러 텍스트 */
+  --color-red-700: 350 88% 34%; /* #A30A24 — active */
+  --color-red-900: 350 86% 29%;
+  --color-green-50: 158 85% 96%;
+  --color-green-400: 165 100% 34%;
+  --color-green-900: 163 88% 20%;
+  --color-blue-50: 202 100% 97%;
+  --color-blue-400: 212 56% 53%;
+  --color-blue-900: 201 100% 27%;
+  --color-yellow-50: 46 100% 95%;
+  --color-yellow-400: 36 100% 57%;
+  --color-yellow-900: 39 100% 27%;
+
+  /* ========== L1 PRIMITIVES — CATEGORICAL (10 SET) ========== */
+  --color-coral-50: 28 100% 93%;
+  --color-coral-400: 14 100% 70%; /* #FF8A66 */
+  --color-coral-800: 358 81% 34%;
+  --color-skyblue-50: 193 64% 94%;
+  --color-skyblue-500: 200 81% 54%; /* #2BA9E9 */
+  --color-skyblue-800: 217 100% 33%;
+  --color-olive-50: 81 78% 89%;
+  --color-olive-600: 81 82% 33%; /* #699A0F */
+  --color-olive-900: 104 100% 16%;
+  --color-purple-50: 260 100% 96%;
+  --color-purple-400: 259 87% 66%; /* #8D5DF4 — Product purple alt (NOT --ups-purple) */
+  --color-purple-700: 257 69% 43%;
+  --color-mint-50: 184 100% 95%;
+  --color-mint-500: 182 100% 40%; /* #00C5CC */
+  --color-mint-800: 190 95% 26%;
+  --color-magenta-50: 304 100% 96%;
+  --color-magenta-500: 323 84% 60%; /* #EF43AD */
+  --color-magenta-700: 329 82% 42%;
+  --color-teal-50: 162 63% 94%;
+  --color-teal-600: 175 84% 32%; /* #0D968B */
+  --color-teal-900: 174 80% 20%;
+  --color-burgundy-50: 339 77% 95%;
+  --color-burgundy-500: 340 56% 54%; /* #CB4874 */
+  --color-burgundy-800: 339 87% 29%;
+
+  /* ========== L1 PRIMITIVES — CHART PALETTE ========== */
+  /* Keep aligned with the Product token source in this repo. */
+  --color-chart-1: var(--color-brand-500);
+  --color-chart-2: var(--color-green-yellow-400);
+  --color-chart-3: var(--color-coral-400);
+  --color-chart-4: var(--color-mint-500);
+  --color-chart-5: var(--color-magenta-500);
+  --color-chart-6: var(--color-skyblue-500);
+  --color-chart-7: var(--color-teal-600);
+  --color-chart-8: var(--color-burgundy-500);
+  --color-chart-9: var(--color-olive-600);
+  --color-chart-10: var(--color-neutral-500);
+
+  /* ========== L1 PRIMITIVES — CHART BRAND RAMP ========== */
+  /* 단일 지표를 순위대로 보여줄 때의 기본값. 브랜드 스케일 한 계열만 쓴다. */
+  --color-chart-brand-1: var(--color-brand-500);
+  --color-chart-brand-2: var(--color-brand-400);
+  --color-chart-brand-3: var(--color-brand-300);
+  --color-chart-brand-4: var(--color-brand-200);
+  --color-chart-brand-5: var(--color-brand-100);
+
+  /* ========== SHADOW BASE ========== */
+  /* Keep aligned with the Product token source in this repo. */
+  --shadow-color: 220 30% 10%;
+  --shadow-strength: 0.08;
+  /* ========== L1 PRIMITIVES — LAYOUT MAX-WIDTH ========== */
+  --max-w-content: 1200px;
+  --max-w-header: 1000px;
+  --max-w-card: 384px;
+
+  /* ========== SPACING SCALE ========== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-11: 44px;
+  /* 64px 이상은 토큰 없음 — Tailwind class 직접 사용 */
+
+  /* ========== RADIUS ========== */
+  --radius: 0.5rem; /* 8px */
+  --radius-lg: 1rem; /* 16px */
+
+  /* ========== ELEVATION ========== */
+  /* Keep aligned with the Product token source in this repo. */
+  --shadow-sm: 0 1px 2px
+    hsl(var(--shadow-color) / calc(var(--shadow-strength) + 0.02));
+  --shadow-md:
+    0 4px 6px -1px hsl(var(--shadow-color) / var(--shadow-strength)),
+    0 2px 4px -2px hsl(var(--shadow-color) / var(--shadow-strength));
+  --shadow-lg:
+    0 10px 15px -3px hsl(var(--shadow-color) / 0.1),
+    0 4px 6px -4px hsl(var(--shadow-color) / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px hsl(var(--shadow-color) / 0.15),
+    0 8px 10px -6px hsl(var(--shadow-color) / 0.15);
+
+  /* ========== TRACKING / LEADING ========== */
+  --tracking-display: -0.04em;
+  --tracking-headline: -0.03em;
+  --tracking-title: -0.02em;
+  --tracking-body: 0;
+  --tracking-label: +0.04em;
+  --tracking-eyebrow: +0.1em;
+  --tracking-uppercase: +0.06em;
+  --leading-display: 1.05;
+  --leading-headline: 1.15;
+  --leading-title: 1.25;
+  --leading-body: 1.55;
+  --leading-caption: 1.45;
+  --measure-body: 65ch;
+  --measure-narrow: 45ch;
+  --paragraph-gap: 0.75em;
+
+  /* ========== MOTION ========== */
+  /* Keep aligned with the Product token source in this repo. */
+  --duration-fast: 150ms; /* @kind other */
+  --duration-normal: 300ms; /* @kind other */
+  --duration-slow: 500ms; /* @kind other */
+
+  /* ========== Z-INDEX (replace magic numbers) ========== */
+  /* Keep aligned with the Product token source in this repo. */
+  --z-sticky: 1100; /* @kind other */
+  --z-popover: 1300; /* @kind other */
+  --z-modal: 1400; /* @kind other */
+  --z-toast: 1500; /* @kind other */
+}

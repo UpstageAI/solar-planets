@@ -1,0 +1,280 @@
+/* ============================================================
+ * tokens/website.css — Website context 토큰
+ * ============================================================
+ * Ground truth: 라이브 upstage.ai 공유 스타일시트
+ *   cdn.prod.website-files.com/.../upstage-staging.webflow.shared.969637469.css
+ *   2026-08-21 **전수 실측** — 발행 정적 41 + CMS 템플릿 대표 11 = 52페이지.
+ *   측정 원자료: raw/docs/design/site-audit/measurements.json
+ *
+ * 라이브에 실제로 존재하는 변수 원장 (사용량 순)
+ *   --colors--             23개 · 263 셀렉터 · 52페이지 · 10,635 요소
+ *   --style--              4개  ·  68 셀렉터 · 52페이지 ·  3,554 요소  (radius)
+ *   --_primitives_font---  26개 · 139 셀렉터 · 52페이지 ·  1,082 요소  (Layer 1.5)
+ *   --_semantic---         36개 ·  61 셀렉터 · 52페이지 ·    753 요소  (Product 유래)
+ *   --_sub---              37개 — untitled-ui / spark-library / elements-webflow-library
+ *                          구매 템플릿 잔재다. **편입하지 않는다.**
+ *   --cc-                  13개 · 14페이지    --_dark--- 13개 · /mabc-2026 전용
+ *
+ * v0.4.0까지 DESIGN.website.md는 "Website 전용 CSS를 만들지 않는다"고 했으나,
+ * 실제로는 Webflow에 249개 변수가 살아 있고 Sprint W1 산출물이 번들 밖에서
+ * 그걸 추종하고 있었다. Solar hub는 이 위에 --sh-* 페이지 스코프를 얹어 만들어졌다.
+ *
+ * 레이어
+ *   Layer 1    Webflow ground truth (--colors--*). staging에서 바뀌면 따라간다. 임의 수정 금지
+ *   Layer 1.5  타입 원장 (--web-font-* / --web-text-* / --web-leading-* / --web-weight-*) — 라이브 원값
+ *   Layer 2    Semantic intent (--surface-* / --text-* / --action-* / --border-*)
+ *   Layer 3    Dark theme (--_dark---*) · 범용 역할값 (--cc-*) — 라이브 원값
+ *   Layer 4    Web 고유 축 (--section-* / --gutter-web / --shadow-* / --focus-ring-web-*)
+ *
+ * Layer 2는 이 DS가 지어낸 이름이다. Webflow에는 없다.
+ * 라이브에서 같은 자리를 맡는 건 --_semantic---* 인데, 그쪽은 Product(shadcn) 계보라
+ * 웹 시맨틱으로 쓰기엔 어휘가 맞지 않는다. Layer 2를 유지하되 Layer 1 위에 얹는다.
+ *
+ * 다른 파일을 쓸 것
+ *   breakpoint                    → tokens/layout.css (--bp-web-tablet 991 / -mobile-land 767
+ *                                   / -mobile-port 479). 라이브 미디어쿼리와 일치 확인됨
+ *   radius                        → tokens/product.css. 라이브 --style--radius-{0,8,16}px 와 대응
+ *   UI 내부 간격                  → tokens/product.css (--space-1…11, 4→44px)
+ *
+ * ⚠ 이름 충돌 주의
+ *   Product의 --space-5는 20px, --space-7은 28px다.
+ *   Solutions 프로토타입은 같은 이름을 24px·48px로 쓰고 있었다.
+ *   섹션 리듬은 --section-* 을 쓴다. --space-* 를 웹 섹션 간격에 재정의하지 말 것.
+ *
+ * forbidden-rules W-4: 사용 코드에서는 var(--*)로만 호출한다. raw hex 금지.
+ *   이 파일의 정의부 hex는 source of truth라 예외 (P-7 location 기준).
+ * ============================================================ */
+
+:root {
+
+  /* ---------- Layer 1 · Webflow ground truth (23개, 라이브 실측) ---------- */
+  --colors--white:            #ffffff;  /* 라이브는 `white` 키워드. 값 동일 */
+  --colors--black:            #0a0d14;
+  --colors--black-space:      #0d1320;  /* 인쇄·딥 다크 표면 */
+  --colors--transparent:      transparent;
+  --colors--grey:             #70757f;
+  --colors--grey-dark:        #525866;
+  --colors--grey-light:       #fafafa;
+  --colors--grey-background:  #3c043b;  /* ※ 이름과 달리 자주색. 라이브 원값 */
+  --colors--line-gray:        #cdd0d5;  /* 기본 hairline */
+  --colors--base--subtle:     #f9fafb;
+  --colors--muted--default:   #f3f4f6;
+  --colors--shadow:           #14142b0f;  /* 그림자 색(알파 포함) */
+  --colors--purple-50:        #ecf0ff;
+  --colors--purple-100:       #dde3ff;
+  --colors--purple-500:       #5b52ff;  /* CTA primary · key palette */
+  --colors--purple-700:       #442ad8;  /* CTA hover */
+  --colors--purple-950:       #1e1650;
+  --colors--purple-1000:      #191722;  /* 다크 표면 */
+  --colors--blue-light:       #0d61f80d;
+  --colors--green-yellow-50:  #f6ffe5;
+  --colors--green-yellow-100: #e9ffc7;
+  --colors--green-yellow-200: #d2ff95;  /* highlight — 다크 위 punctuation */
+
+  /* Webflow 오타 별칭. 라이브에는 purple-200이 없고 오타 puple-200만 있다.
+     정타를 정본으로 두고 오타를 별칭으로 건다. Webflow에서 고쳐지면 별칭을 제거한다. */
+  --colors--purple-200: #c2cbff;
+  --colors--puple-200: var(--colors--purple-200);  /* [DEPRECATED] */
+
+  /* ---------- Layer 1.5 · 타입 원장 (33개 = 데스크톱 25 + 태블릿 이하 8) ----------
+     라이브 --_primitives_font---* 를 옮긴 것이다. 52페이지 전부에서 139개 셀렉터가 참조한다.
+     이름만 --web- 으로 줄였다.
+
+     라이브 26개 중 25개를 옮겼다. 뺀 1개는 --weight--regural(=300) — 오타이고 값도
+     틀렸다(regular은 400인데 300은 Light). --weight--regular(=400)은 그대로 있으니
+     그쪽을 쓴다. Webflow에서 오타 변수를 지울 것.
+
+     타입 스케일도 반응형이다. Webflow 변수 모드가 브레이크포인트에 물려 있어 변수 자체가
+     ≤991에서 재정의된다. ≤767은 ≤991과 값이 같아 단계는 **2단**이다. */
+  --web-font-display:  Espeak, Arial, sans-serif;
+  --web-font-body:     Geist, sans-serif;
+  --web-font-mono:     "Geist Mono";
+  --web-font-body-ko:  "Noto Sans KR", sans-serif;
+  --web-font-body-ja:  "Noto Sans JP", sans-serif;
+
+  /* 🔴 --web-font-mono 는 code · pre · kbd · samp 안에서만 쓴다 (forbidden-rules ALL-5).
+     eyebrow · kicker · 날짜 · 라벨 · 수치 · 배지에 쓰지 말 것. 2026-08-21 실측에서
+     라이브 mono 규칙 22개 중 21개가 코드 블록이 아니었다. mono는 "이건 코드다"라는
+     신호인데, 장식으로 쓰면 그 신호가 닳는다.
+     강조가 필요하면 크기(--web-text-sm) · 굵기(--web-weight-medium) · letter-spacing ·
+     색으로 만든다.
+
+     ⚠ 라이브는 ≤991에서 --font-mono 를 Geist(=본문 폰트)로 덮어쓴다. 코드 블록이
+     모바일에서 mono가 아니게 된다. Webflow 변수 모드 실수로 보이므로 따라가지 않는다. */
+
+  /* 데스크톱 */
+  --web-text-display: 3.6rem;
+  --web-text-5xl:     3rem;
+  --web-text-4xl:     2.5rem;
+  --web-text-3xl:     2rem;
+  --web-text-2xl:     1.75rem;
+  --web-text-xl:      1.5rem;
+  --web-text-lg:      1.25rem;
+  --web-text-md:      1.125rem;
+  --web-text-base:    1rem;
+  --web-text-sm:      0.875rem;
+  --web-text-xs:      0.75rem;
+
+  --web-leading-tight:   1.1;
+  --web-leading-snug:    1.2;
+  --web-leading-normal:  1.4;
+  --web-leading-relaxed: 1.6;
+
+  --web-weight-normal:   400;
+  --web-weight-regular:  400;
+  --web-weight-medium:   500;
+  --web-weight-semibold: 600;
+  --web-weight-bold:     700;
+
+  /* 태블릿 이하 (≤991px). ≤767px도 같은 값이다. */
+  --web-text-display-sm: 2.25rem;
+  --web-text-5xl-sm:     2rem;
+  --web-text-4xl-sm:     1.75rem;
+  --web-text-3xl-sm:     1.5rem;
+  --web-text-2xl-sm:     1.5rem;
+  --web-text-xl-sm:      1.25rem;
+  --web-text-lg-sm:      1.125rem;
+  --web-text-md-sm:      1rem;
+  /* base·sm·xs는 안 꺾인다 */
+
+  /* ---------- Layer 2 · Semantic intent ----------
+     Website는 Product 토큰 뒤에 로드된다(DESIGN.website.md). 그래서 같은 이름을 다시
+     정의하면 조용히 이긴다. 의도한 재정의는 2026-08-21 기준 아래 둘뿐이다.
+
+       --surface-purple   marketing.css #f4f2ff  → 여기 --colors--purple-100 (#dde3ff)
+       --border-subtle    product.css neutral-100 → 여기 #e5e7eb
+
+     둘 다 라이브 실측값이라 website에서는 이쪽이 맞다. 새로 겹치는 이름이 생기면
+     tools/verify_bundle.py 의 cross_file_shadow 가 잡는다 — 잡히면 의도인지 사고인지
+     판단해서 여기 목록에 적거나 이름을 바꾼다. */
+  --surface-canvas:   var(--colors--white);          /* 기본 본문 섹션 */
+  --surface-subtle:   var(--colors--base--subtle);   /* 카드 grid 배경 */
+  --surface-tint:     var(--colors--purple-50);      /* Hero·강조 섹션 */
+  --surface-purple:   var(--colors--purple-100);     /* 교차 섹션 */
+  /* 🔴 [미사용] --surface-hero — 2026-08-21 실측 결론: **히어로에 배경색을 쓰지 않는다.**
+     라이브 히어로 16개 중 라이트 13개가 전부 background-color: transparent 다.
+     색이 있는 건 다크 3개(#0a0d14 · #191722)와 sh-hero(#ffffff = 페이지 배경)뿐이다.
+     이 값(#ced0ff)을 쓰는 히어로는 0개이고, 옛 --hero-bg(#EAE6FF)도 마찬가지다.
+     "어느 값이 맞나"를 정할 게 아니라 안 쓰는 것이다. 호출하지 말 것.
+     다크 히어로는 --_dark---surface 를, 배경 이미지형은 --colors--purple-1000 을 쓴다.
+     값은 하위호환을 위해 남긴다 — 다음 메이저에서 제거. */
+  --surface-hero:     #ced0ff;                       /* [DEPRECATED] 사용처 0 */
+  --surface-tertiary: var(--colors--blue-light);     /* tertiary band */
+  --surface-dark:     var(--colors--purple-1000);    /* Footer·CTA dark */
+  --surface-nav:      #151727;                       /* Web nav (--web-nav-background) */
+  --text-primary:    var(--colors--black);
+  --text-secondary:  var(--colors--grey);
+  --text-body:       var(--colors--grey-dark);
+  --text-on-dark:    rgba(255, 255, 255, 0.7);
+  --text-on-dark-muted: rgba(255, 255, 255, 0.5);
+  --surface-on-dark-subtle: rgba(255, 255, 255, 0.04); /* 다크 위 faint fill (S8 lead-form spec 카드) */
+  --action-primary:        var(--colors--purple-500);
+  --action-primary-hover:  var(--colors--purple-700);
+  --action-primary-fg:     var(--colors--white);
+  --action-ghost-fg:       var(--colors--black);
+  --action-ghost-border:   var(--colors--line-gray);
+
+  /* ---------- Form input (2026-08-25 실측 + 접근성 보정) ----------
+     프로덕션 실측은 border #e5e7eb · placeholder rgba(156,163,175,.8) 였다.
+     흰 배경 대비가 각각 **1.24:1 · 2.06:1** 로 WCAG 1.4.11(3:1) · 1.4.3(4.5:1)에
+     한참 못 미쳐, 라이브를 그대로 옮기지 않고 보정값을 정본으로 채택한다.
+     이 파일에서 라이브보다 접근성을 우선한 유일한 지점이다. */
+  --form-input-border:       var(--cc-ink-50);      /* #0d0d1280 → 3.63:1 (1.4.11 통과) */
+  --form-input-placeholder:  var(--text-secondary); /* #70757f   → 4.63:1 (1.4.3 통과) */
+  --form-input-fg:           var(--cc-ink);         /* #0d0d12   → 19.38:1 */
+  --form-input-focus-border: var(--cc-key);         /* #5b52ff   → 5.13:1 */
+  --border-default:  var(--colors--line-gray);
+  --border-subtle:   #e5e7eb;
+  --border-on-dark:  rgba(255, 255, 255, 0.15);   /* 다크 surface 위 경계 (S8 lead-form) */
+
+  /* ---------- Layer 3 · Dark theme (라이브 --_dark---*, 13개) ---------- */
+  /* 삼중 대시는 Webflow 컬렉션 표기 그대로다.
+     2026-08-21 실측 정정: 이 원장을 쓰는 페이지는 「/mabc-2026」 하나뿐이다(64 셀렉터·179 요소).
+     Solar hub는 이걸 쓰지 않는다 — 자기 페이지 스코프 --sh-* 를 쓴다.
+     프로덕션 다크는 4갈래로 갈라져 있다. kit/context/website-section-patterns.md §다크 섹션 참조. */
+  --_dark---surface:        #191722;
+  --_dark---surface-subtle: #201e2b;
+  --_dark---surface-deep:   #141221;
+  --_dark---card:           #262336;
+  --_dark---text:           #fff;
+  --_dark---text-body:      #d2d5db;
+  --_dark---text-muted:     #9aa0aa;
+  --_dark---border:         #ffffff38;
+  --_dark---border-subtle:  #ffffff1f;
+  --_dark---fill:           #99a5ff21;
+  --_dark---accent:         #99a5ff;
+  --_dark---accent-hover:   #7f8bff;
+  --_dark---accent-fg:      #18181b;
+
+  /* ---------- Layer 3 · 범용 역할값 (--cc-*, 13개) ---------- */
+  /* 2026-08-21 실측 정정: 이름 때문에 "customer story"로 적어 뒀으나 아니다.
+     14개 페이지에서 .lang-btn · .text-lead-hero · .button-secondary · .article-kicker
+     · .pt-* 가 참조한다. /blog · /events · /privacy-policy · /terms-of-service ·
+     /solutions/* · /solar-llms 등 전 영역에 걸쳐 있고, 정작 /customers 에는 없다.
+     성격은 잉크·뮤티드·키컬러의 역할값 세트다. --cc-dark-surface 는 Solutions
+     다크 밴드(.section-pages-dark)의 배경이기도 하다. */
+  --cc-ink:              #0d0d12;
+  --cc-ink-80:           #0d0d12cc;
+  --cc-ink-50:           #0d0d1280;
+  --cc-ink-20:           #0d0d1226;
+  --cc-ink-08:           #0d0d120f;
+  --cc-muted:            #5a5a60;
+  --cc-muted-soft:       #525866;
+  --cc-key:              #5b52ff;
+  --cc-key-hover:        #4840e0;
+  --cc-highlight:        #d2ff95;
+  --cc-surface-light:    #f5f5f6;
+  --cc-surface-key-soft: #f4f2ff;
+  --cc-dark-surface:     #0d0d12;
+
+  /* ---------- Layer 4 · Web 고유 축 ---------- */
+
+  /* 섹션 리듬 — 2026-08-21 라이브 52페이지 실측. Product --space-*(4→44px)로는
+     웹 섹션 간격을 못 만든다.
+
+     ⚠ 선언값과 실효값이 다르다. 라이브 래퍼 컨벤션이 Padding Global > Container 라서
+     섹션은 반드시 `.padding-global.padding-section-*` 콤보로 걸린다. 그런데 콤보
+     특이도 (0,2,0)이 미디어쿼리 안 단독 규칙 (0,1,0)을 이긴다. 아래는 **실효값**이다.
+
+       .padding-section-small   48px            ≤767 32px      (9회 · 7페이지)
+       .padding-section-medium  96px            ≤479 48px      (75회 · 36페이지)
+       .padding-section-large   —  52페이지 사용 0회 (선언만 존재)
+
+     medium의 단독 선언은 5rem(80px)이고 991/767 단계도 선언돼 있지만, 실제로는
+     콤보가 6rem으로 덮어써서 ≤479까지 96px로 간다. 단독 사용은 0건이다.
+     large는 128/96/64 사다리가 살아 있으나 쓰는 페이지가 없다 — 정본으로 삼지 않는다. */
+  --section-sm: 48px;          /* ≤767 → --section-sm-mobile */
+  --section-sm-mobile: 32px;
+  --section-md: 96px;          /* ≤479 → --section-md-mobile. 991·767에서 안 꺾인다 */
+  --section-md-mobile: 48px;
+  --section-lg: 128px;         /* 선언만 존재. 쓰기 전에 라이브 사용처를 먼저 만들 것 */
+
+  /* 좌우 거터·컨테이너. .padding-global / .container-* 실측. */
+  --gutter-web: 40px;          /* ≤767: 20px */
+  --gutter-web-tablet: 40px;   /* 991 구간 오버라이드 없음 — 데스크톱과 같다 */
+  --gutter-web-mobile: 20px;
+  --container-web-large: 80rem;  /* 1280px */
+  --container-web-small: 48rem;  /* 768px */
+
+  /* 레거시 별칭 — 신규 작업에 쓰지 말 것. 섹션 간격은 위 3단만 쓴다. */
+  --section-2xs: 24px;
+  --section-xs: 32px;
+  --section-xl: 128px;
+
+  /* 포커스 링 — 라이브 52페이지 중 50페이지가 커스텀 코드로 동일하게 얹고 있다(변형 0건).
+     없는 2개는 /solar-llms(자체 :focus-visible 보유)와
+     /upstage-for-insurance-trusted-decisions-faster.
+     Product의 --focus-ring-*(3px, brand-500)과 값이 다르므로 웹은 이쪽을 쓴다.
+     #4d65ff on #fff = 4.54:1 (1.4.11 기준 3:1 통과). */
+  --focus-ring-web-color: #4d65ff;
+  --focus-ring-web-width: 2px;
+  --focus-ring-web-offset: 2px;
+
+  /* 다크 패널·커버카드 그림자. Solar hub 커버 그리드와 Solutions 패널이 공유한다. */
+  --shadow-panel: 0 24px 80px rgba(0, 0, 0, 0.34);
+  --shadow-card-web: 0 14px 40px rgba(13, 13, 18, 0.08);
+
+  /* 웹 본문 행간. Product 본문(1.6)보다 촘촘하고, 디스플레이는 더 좁다. */
+  --leading-web-body: 1.45;
+  --leading-web-display: 0.96;
+}

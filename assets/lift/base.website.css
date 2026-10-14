@@ -1,0 +1,96 @@
+/*
+ * base.website.css — Website canonical component classes.
+ *
+ * 정본은 context/website-style-guide.md §버튼 (라이브 Client-First 스타일 가이드
+ * 페이지 렌더 실측). 값은 그 표 그대로이고, 하드코딩 대신 tokens/website.css 를 쓴다.
+ *
+ *   .button              #5b52ff / 흰색 / 8px / 12px 18px / 16px 500
+ *   .button.is-small     8px 16px
+ *   .button.is-large     16px 32px
+ *   .button.is-secondary 흰색 배경 / #5b52ff 글자 / 1px 퍼플 보더
+ *   .button.is-text      배경·radius 없음 / 18px 500
+ *
+ * **기본은 콤보다** (2026-08-21 확정) — `class="button is-secondary"`.
+ * 예외는 whtml import 경로 하나뿐이고, 그쪽만 평탄화한다.
+ *
+ * 🔴 CTA 색은 --cc-key / --cc-key-hover 다. --action-primary* 를 쓰지 않는다 —
+ *    DESIGN.website.md §Intent Token Mapping 이 action.primary(CTA)를
+ *    `var(--cc-key)` + `var(--cc-key-hover)` 로 못박는다. (2026-08-25 정정)
+ *
+ * `.mkt-btn` 은 Marketing 전용이다. Website entry 는 base.marketing.css 를 싣지
+ * 않으므로 Website 산출물에서 `.mkt-btn` 을 쓰면 정의가 없어 외형이 깨진다.
+ */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  background: var(--cc-key);
+  color: var(--colors--white);
+  border: 1px solid var(--cc-key);
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-decoration: none;
+  cursor: pointer;
+}
+.button:hover {
+  background: var(--cc-key-hover);
+  border-color: var(--cc-key-hover);
+}
+
+.button.is-small { padding: 8px 16px; }
+.button.is-large { padding: 16px 32px; }
+
+.button.is-secondary {
+  background: var(--surface-canvas);
+  color: var(--cc-key);
+  border: 1px solid var(--cc-key);
+}
+.button.is-secondary:hover {
+  background: var(--cc-surface-key-soft);
+  border-color: var(--cc-key-hover);
+  color: var(--cc-key-hover);
+}
+
+.button.is-text {
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  color: var(--cc-key);
+  font-size: 18px;
+}
+.button.is-text:hover { background: none; color: var(--cc-key-hover); }
+
+.button.is-icon,
+.button.is-form-submit { padding: 12px 18px; }
+
+/*
+ * 폼 입력.
+ *
+ * website-style-guide.md 에는 폼 스펙이 없다(버튼만 있다). 값은 tokens/website.css
+ * 의 --form-input-* 이 정본이고, 그쪽 주석에 프로덕션 실측값과 접근성 보정 근거가
+ * 있다 — 라이브 border/placeholder 는 1.24:1 · 2.06:1 로 WCAG 미달이었다.
+ *
+ * padding 은 `8px 0` — 언더라인 입력이라 좌우 인셋을 두지 않는다. 라벨·헬프텍스트와
+ * 왼쪽 정렬이 맞아야 한다.
+ * 포커스 링은 a11y.website.css 가 [data-ds-focus] 로 건다. 모든 Website 입력에
+ * `data-ds-focus` 를 단다 — 언더라인 색 변화만으로는 포커스 표시가 부족하다.
+ */
+
+.input-underline {
+  border: 0;
+  border-bottom: 1px solid var(--form-input-border);
+  color: var(--form-input-fg);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 8px 0;
+}
+.input-underline::placeholder { color: var(--form-input-placeholder); }
+.input-underline:focus { border-bottom-color: var(--form-input-focus-border); }

@@ -9,9 +9,9 @@
 | 한글 서식 행성 | [korean-report-hwpx](https://github.com/UpstageAI/korean-report-hwpx) |
 | 근거 행성 | [korean-tax-mcp](https://github.com/UpstageAI/korean-tax-mcp) |
 | 계산 행성 | [korean-tax-calc-mcp](https://github.com/UpstageAI/korean-tax-calc-mcp) |
-| 판정 행성 | Solar Decide 공공 판정 시연 |
+| 민원 분류 행성 | Solar Decide(Jev) 민원 분류 예시 (Created by 성덕희) |
 | GWS | Government Working Space (준비 중) |
 
-정적 HTML 한 장과 이미지로 되어 있어 빌드 과정이 없습니다.
+정적 HTML 한 장과 CSS·스크립트·인라인 SVG로 되어 있어 빌드 과정이 없습니다. 디자인은 업스테이지 LIFT 디자인 시스템 토큰을 따르며, 2026-10-14 v7 디자인 가이드(`docs/DESIGN-HANDOFF-v7.md`)를 반영했습니다. 로컬 확인: `python3 -m http.server 8767` 후 http://127.0.0.1:8767/
 
 Created by Mia(윤승미) · © 2026 Upstage · MIT License
