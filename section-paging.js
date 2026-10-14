@@ -3,7 +3,7 @@
 (() => {
   const mobile = matchMedia('(max-width: 760px)');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let idleTimer, settleTimer, consumed = false, delta = 0, destination = null;
+  let idleTimer, settleTimer, consumed = false, delta = 0, direction = 0, destination = null;
   const stops = () => {
     const end = document.documentElement.scrollHeight - innerHeight;
     return [...new Set([0, ...document.querySelectorAll('.scene, .outro')]
@@ -33,12 +33,16 @@
           : desktopOverflow())) return;
     if (!event.deltaY) return;
     event.preventDefault();
+    // Momentum never reverses: a sign change is a new gesture even inside the tail.
+    const sign = Math.sign(event.deltaY);
+    if (consumed && sign !== direction) { consumed = false; delta = 0; }
     clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => { consumed = false; delta = 0; }, 200);
+    idleTimer = setTimeout(() => { consumed = false; delta = 0; direction = 0; }, 200);
     if (consumed) return;
     delta += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
     if (Math.abs(delta) < 24) return;
     consumed = true;
+    direction = sign;
     const points = stops();
     const origin = destination === null ? scrollY : destination;
     const index = points.reduce((best, y, i) =>
