@@ -342,3 +342,12 @@ body{background:#191724}
 .arch-cta-arrow{margin-left:auto;font-size:var(--web-text-lg);color:var(--planet-sun);transition:transform .3s}
 .arch-cta:hover .arch-cta-arrow{transform:translateX(4px)}
 @media(prefers-reduced-motion:reduce){.arch-cta-orbit i{animation:none}.arch-cta-orbit i:nth-child(2){transform:translateX(28px)}.arch-cta-orbit i:nth-child(3){transform:rotate(72deg) translateX(28px)}.arch-cta-orbit i:nth-child(4){transform:rotate(144deg) translateX(28px)}.arch-cta-orbit i:nth-child(5){transform:rotate(216deg) translateX(28px)}.arch-cta-orbit i:nth-child(6){transform:rotate(288deg) translateX(28px)}}
+
+/* Contact banner (Rani 10/15 제안): 공공 문의는 담당자 메일, 기업 문의는 Upstage Contact us */
+.contact-cta{background:var(--colors--purple-100);color:var(--colors--purple-1000);text-align:center;padding-block:var(--section-md-mobile)}
+.contact-cta-inner{display:grid;justify-items:center;gap:16px}
+.contact-cta h2{margin:0;color:var(--colors--purple-1000)}
+.contact-cta p{margin:0;max-width:48ch;color:#4a4a5a}
+.contact-cta-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:16px}
+@media(min-width:480px){.contact-cta{padding-block:var(--section-md)}}
+.contact-cta{scroll-snap-align:start}
